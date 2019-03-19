@@ -1,0 +1,24 @@
+.heading{
+	text-align: center;
+}
+
+body{
+	background:url("Img/Ocean1.jpg");
+	-webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+body .container{
+	margin: auto;
+	margin-top: 5vh;
+}
+
+.container{
+	background-color: white;
+	height: 80vh;
+	width: 80vh;
+	border: 1px solid black;
+	box-shadow: 2px 2px 5px 5px #ff99ff;
+}
