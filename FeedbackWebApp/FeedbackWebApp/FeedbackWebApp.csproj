@@ -85,7 +85,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AppServices.asmx" />
+    <Content Include="Feedback.css" />
+    <Content Include="Feedback.html" />
+    <Content Include="Feedback.js" />
     <Content Include="Global.asax" />
+    <Content Include="Journal.html" />
+    <Content Include="Ocean1.jpg" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

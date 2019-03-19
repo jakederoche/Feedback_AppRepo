@@ -3,7 +3,7 @@
 }
 
 body{
-	background:url("Img/Ocean1.jpg");
+	background-image: url("Ocean1.jpg");
 	-webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
