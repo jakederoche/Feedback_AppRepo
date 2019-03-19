@@ -16,9 +16,13 @@ body .container{
 }
 
 .container{
-	background-color: white;
+	background: linear-gradient(#A6D3E6, #E4C7C1);
 	height: 80vh;
 	width: 80vh;
 	border: 1px solid black;
-	box-shadow: 2px 2px 5px 5px #ff99ff;
+	box-shadow: 2px 2px 5px 5px #7DA3AE;
+}
+
+.SurveyReturn{
+	color: white;
 }
