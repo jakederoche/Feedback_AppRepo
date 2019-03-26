@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    Admin Dashboard
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+  <!-- CSS Files -->
+  <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="../assets/css/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
+  <!-- CSS Just for demo purpose, don't include it in your project -->
+  <link href="../assets/demo/demo.css" rel="stylesheet" />
+</head>
+
+<body class="">
+  <div class="wrapper ">
+    <div class="sidebar" data-color="white" data-active-color="danger">
+      <!--
+        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
+    -->
+      <div class="logo">
+        <a class="simple-text logo-mini">
+          <div class="logo-image-small">
+            <img src="../assets/img/logo-small.png">
+          </div>
+        </a>
+        <a class="simple-text logo-normal">
+          Shirley
+          <!-- <div class="logo-image-big">
+            <img src="../assets/img/logo-big.png">
+          </div> -->
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <ul class="nav">
+            <li>
+              <a href="./user.html">
+                <i class="nc-icon nc-single-02"></i>
+                <p>User Profile</p>
+              </a>
+            </li>
+            <li>
+              <a href="./dashboard.html">
+                <i class="nc-icon nc-bank"></i>
+                <p>Dashboard</p>
+              </a>
+            </li>
+            <li class="active ">
+              <a href="./tables.html">
+                <i class="nc-icon nc-tile-56"></i>
+                <p>Table List</p>
+              </a>
+            </li>
+        </ul>
+      </div>
+    </div>
+    <div class="main-panel">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <div class="navbar-toggle">
+              <button type="button" class="navbar-toggler">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </button>
+            </div>
+            <a class="navbar-brand" href="#pablo">Feedback Responses Dashboard</a>
+          </div>
+        </div>
+      </nav>
+      <!-- End Navbar -->
+      <!-- <div class="panel-header panel-header-sm">
+  
+  
+</div> -->
+      <div class="content">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title"> Survey</h4>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class=" text-primary">
+                      <th>
+                        UserID
+                      </th>
+                      <th>
+                        Gender
+                      </th>
+                      <th>
+                        Are you satisfied at your job?
+                      </th>
+                      <th>
+                        What would improve your daily work?
+                      </th>
+                      <th>
+                        How do you Feel you are treated by your Boss/coworkers?
+                      </th>
+                      <th>
+                        What tasks would you like to take on to improve your work fulfillment?
+                      </th>
+                      <th class="text-right">
+                        Satisfaction
+                      </th>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          1
+                        </td>
+                        <td>
+                          Female
+                        </td>
+                        <td>
+                          Excellent!
+                        </td>
+                        <td>
+                          Good Communication with my team!
+                        </td>
+                        <td>
+                          Awesome! They treat me as a family.
+                        </td>
+                        <td>
+                          More activities to build the strong relationships.
+                        </td>
+                        <td class="text-right">
+                          5
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          2
+                        </td>
+                        <td>
+                          Female
+                        </td>
+                        <td>
+                          Great!
+                        </td>
+                        <td>
+                          Good Communication with my team!
+                        </td>
+                        <td>
+                          Awesome! They treat me as a family.
+                        </td>
+                        <td>
+                          More activities to build the strong relationships.
+                        </td>
+                        <td class="text-right">
+                          4
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          3
+                        </td>
+                        <td>
+                          Male
+                        </td>
+                        <td>
+                          Happy to join the company!
+                        </td>
+                        <td>
+                           Good Communication with my team!
+                        </td>
+                        <td>
+                          Awesome! They treat me as a family.
+                        </td>
+                        <td>
+                          More activities to build the strong relationships.
+                        </td>
+                        <td class="text-right">
+                          5
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          4
+                        </td>
+                        <td>
+                          Male
+                        </td>
+                        <td>
+                          I'm glad to cooperate with my team.
+                        </td>
+                        <td>
+                           Good Communication with my team!
+                        </td>
+                        <td>
+                          Awesome! They treat me as a family.
+                        </td>
+                        <td>
+                          More activities to build the strong relationships.
+                        </td>
+                        <td class="text-right">
+                          5
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          5
+                        </td>
+                        <td>
+                          Female
+                        </td>
+                        <td>
+                          Definitely NO!
+                        </td>
+                        <td>
+                          Develop more ways to communicate with my team.
+                        </td>
+                        <td>
+                          Too bad....
+                        </td>
+                        <td>
+                          Have a meeting with my boss to share my opinions!
+                        </td>
+                        <td class="text-right">
+                          1
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="content">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="card">
+                    <div class="card-header">
+                      <h4 class="card-title"> Department</h4>
+                    </div>
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table">
+                          <thead class=" text-primary">
+                            <th>
+                              Department
+                            </th>
+                            <th>
+                              Gender
+                            </th>
+                            <th>
+                              Are you satisfied at your job?
+                            </th>
+                            <th>
+                              What would improve your daily work?
+                            </th>
+                            <th>
+                              How do you Feel you are treated by your Boss/coworkers?
+                            </th>
+                            <th>
+                              What tasks would you like to take on to improve your work fulfillment?
+                            </th>
+                            <th class="text-right">
+                              Satisfaction
+                            </th>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>
+                                Accounting
+                              </td>
+                              <td>
+                                Female
+                              </td>
+                              <td>
+                                Excellent!
+                              </td>
+                              <td>
+                                Good Communication with my team!
+                              </td>
+                              <td>
+                                Awesome! They treat me as a family.
+                              </td>
+                              <td>
+                                More activities to build the strong relationships.
+                              </td>
+                              <td class="text-right">
+                                5
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                Accounting
+                              </td>
+                              <td>
+                                Female
+                              </td>
+                              <td>
+                                Great!
+                              </td>
+                              <td>
+                                Good Communication with my team!
+                              </td>
+                              <td>
+                                Awesome!
+                              </td>
+                              <td>
+                                More activities to build the strong relationships.
+                              </td>
+                              <td class="text-right">
+                                5
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                Accounting
+                              </td>
+                              <td>
+                                Male
+                              </td>
+                              <td>
+                                Happy to join the company!
+                              </td>
+                              <td>
+                                 Good Communication with my team!
+                              </td>
+                              <td>
+                                Fantastic!
+                              </td>
+                              <td>
+                                More activities to build the strong relationships.
+                              </td>
+                              <td class="text-right">
+                                4
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                Accounting
+                              </td>
+                              <td>
+                                Male
+                              </td>
+                              <td>
+                                I'm glad to cooperate with my team.
+                              </td>
+                              <td>
+                                 Good Communication with my team!
+                              </td>
+                              <td>
+                                Good.
+                              </td>
+                              <td>
+                                More activities to build the strong relationships.
+                              </td>
+                              <td class="text-right">
+                                3
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                Accounting
+                              </td>
+                              <td>
+                                Female
+                              </td>
+                              <td>
+                                Definitely NO!
+                              </td>
+                              <td>
+                                Develop more ways to communicate with my team.
+                              </td>
+                              <td>
+                                Too bad....
+                              </td>
+                              <td>
+                                Have a meeting with my boss to share my opinions!
+                              </td>
+                              <td class="text-right">
+                                1
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer footer-black  footer-white ">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="credits ml-auto">
+                <span class="copyright">
+                  ©
+                  <script>
+                    document.write(new Date().getFullYear())
+                  </script>, Made by ScrumOfTheEarth
+                </span>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </body>
+  </html>
