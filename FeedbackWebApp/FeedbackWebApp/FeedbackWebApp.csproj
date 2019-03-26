@@ -85,12 +85,22 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AppServices.asmx" />
+    <Content Include="bootstrap.min.css" />
+    <Content Include="createaccount.html" />
+    <Content Include="dashboard.html" />
+    <Content Include="demo.css" />
+    <Content Include="demo.js" />
     <Content Include="Feedback.css" />
     <Content Include="Feedback.html" />
     <Content Include="Feedback.js" />
     <Content Include="Global.asax" />
     <Content Include="Journal.html" />
+    <Content Include="Login.html" />
     <Content Include="Ocean1.jpg" />
+    <Content Include="paper-dashboard.css" />
+    <Content Include="paper-dashboard.min.css" />
+    <Content Include="tables.html" />
+    <Content Include="user.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -105,7 +115,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bootstrap.min.css.map" />
     <None Include="packages.config" />
+    <Content Include="paper-dashboard.css.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
