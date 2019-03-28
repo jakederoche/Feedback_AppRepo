@@ -6,6 +6,7 @@ using System.Web.Services;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 using System.Data;
+using VaderSharp;
 
 namespace FeedbackWebApp
 {
@@ -181,6 +182,34 @@ namespace FeedbackWebApp
                 throw e;
             }
             sqlConnection.Close();
+        }
+
+        public double GetSentiment(string text, string sentimentType = "Compound")
+        {
+            /// Receives a text to be analyzed,
+            /// sentimentType parameter will be what sentiment analysis to return:
+            ///     Sentiment Types are "Positive", "Negative", "Neutral", or "Compound"
+            ///     Type defaults to compound score
+
+            // Creates an analyzer object
+            SentimentIntensityAnalyzer analyzer = new SentimentIntensityAnalyzer();
+
+            var results = analyzer.PolarityScores(text);
+
+            switch(sentimentType)
+            {
+                case "Positive":
+                    return Convert.ToDouble(results.Positive);
+                case "Negative":
+                    return Convert.ToDouble(results.Negative);
+                case "Neutral":
+                    return Convert.ToDouble(results.Neutral);
+                default:
+                    return Convert.ToDouble(results.Compound);
+            }
+                
+
+
         }
 
     }
