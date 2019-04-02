@@ -6,6 +6,7 @@ using System.Web.Services;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 using System.Data;
+using VaderSharp;
 
 namespace FeedbackWebApp
 {
@@ -30,7 +31,7 @@ namespace FeedbackWebApp
             string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
             //here's our query.  A basic select with nothing fancy.  Note the parameters that begin with @
             //NOTICE: we added admin to what we pull, so that we can store it along with the id in the session
-            string sqlSelect = "SELECT UserID FROM test WHERE UserName=@idValue and UserPassword=@passValue";
+            string sqlSelect = "SELECT UserID FROM user WHERE UserFirstName=@idValue and UserPassword=@passValue";
 
             //set up our connection object to be ready to use our connection string
             MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
@@ -65,6 +66,7 @@ namespace FeedbackWebApp
             return success;
         }
 
+
         [WebMethod(EnableSession = true)]
         public bool LogOff()
         {
@@ -74,5 +76,141 @@ namespace FeedbackWebApp
             Session.Abandon();
             return true;
         }
+
+        ////EXAMPLE OF AN UPDATE QUERY WITH PARAMS PASSED IN
+        //[WebMethod(EnableSession = true)]
+        //public void UpdateAccount(string UserID, string UserPassword, string UserAdmin, string UserFirstName,  string UserLastName, string UserEmpID, string UserDepartment, string UserDirectReport)
+        //{
+
+        //    string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
+        //    //this is a simple update, with parameters to pass in values
+        //    string sqlSelect = "update user_data set UserFirstName=@userFirstName, UserPassword=@passValue, UserAdmin=@userAdmin, UserLastName=@userLastName, " +
+        //        "UserEmpID=@userEmpID, UserDepartment=@userDepartment, UserDirectReport=@userDirectReport where UserID=@uID";
+
+        //    MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
+        //    MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+        //    sqlCommand.Parameters.AddWithValue("@userFirstName", HttpUtility.UrlDecode(UserFirstName));
+        //    sqlCommand.Parameters.AddWithValue("@passValue", HttpUtility.UrlDecode(UserPassword));
+        //    sqlCommand.Parameters.AddWithValue("@userAdmin", HttpUtility.UrlDecode(UserAdmin));
+        //    sqlCommand.Parameters.AddWithValue("@userLastName", HttpUtility.UrlDecode(UserLastName));
+        //    sqlCommand.Parameters.AddWithValue("@userEmpID", HttpUtility.UrlDecode(UserEmpID));
+        //    sqlCommand.Parameters.AddWithValue("@userDepartment", HttpUtility.UrlDecode(UserDepartment));
+        //    sqlCommand.Parameters.AddWithValue("@userDirectReport", HttpUtility.UrlDecode(UserDirectReport));
+        //    sqlCommand.Parameters.AddWithValue("@uID", HttpUtility.UrlDecode(UserID));
+
+        //    sqlConnection.Open();
+        //    //we're using a try/catch so that if the query errors out we can handle it gracefully
+        //    //by closing the connection and moving on
+        //    try
+        //    {
+        //        sqlCommand.ExecuteNonQuery();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //    }
+        //    sqlConnection.Close();
+
+        //}
+
+        //EXAMPLE OF A DELETE QUERY
+        [WebMethod(EnableSession = true)]
+        public void DeleteAccount(string id)
+        {
+
+
+            string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
+            //this is a simple update, with parameters to pass in values
+            string sqlSelect = "delete from user_data where UserId=@idValue";
+
+            MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+            sqlCommand.Parameters.AddWithValue("@idValue", HttpUtility.UrlDecode(id));
+
+            sqlConnection.Open();
+            try
+            {
+                sqlCommand.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+            }
+            sqlConnection.Close();
+
+        }
+
+        //EXAMPLE OF AN INSERT QUERY WITH PARAMS PASSED IN.  BONUS GETTING THE INSERTED ID FROM THE DB!
+        [WebMethod(EnableSession = true)]
+        public void CreateAccount(string UserPassword, string UserAdmin, string UserFirstName, string UserLastName, string UserEmpID, string UserDepartment, string UserDirectReport)
+        {
+            string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
+            //the only thing fancy about this query is SELECT LAST_INSERT_ID() at the end.  All that
+            //does is tell mySql server to return the primary key of the last inserted row.
+            string sqlSelect = "insert into user (UserPassword, UserAdmin, UserFirstName, UserLastName, UserEmpID, UserDepartment, UserDirectReport)" +
+                "values(@passValue, @userAdmin, @userFirstName, @userLastName, @userEmpID, @userDepartment, @userDirectReport); SELECT LAST_INSERT_ID();";
+
+            MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+            sqlCommand.Parameters.AddWithValue("@passValue", HttpUtility.UrlDecode(UserPassword));
+            sqlCommand.Parameters.AddWithValue("@userAdmin", HttpUtility.UrlDecode(UserAdmin));
+            sqlCommand.Parameters.AddWithValue("@userFirstName", HttpUtility.UrlDecode(UserFirstName));
+            sqlCommand.Parameters.AddWithValue("@userLastName", HttpUtility.UrlDecode(UserLastName));
+            sqlCommand.Parameters.AddWithValue("@userEmpID", HttpUtility.UrlDecode(UserEmpID));
+            sqlCommand.Parameters.AddWithValue("@userDepartment", HttpUtility.UrlDecode(UserDepartment));
+            sqlCommand.Parameters.AddWithValue("@userDirectReport", HttpUtility.UrlDecode(UserDirectReport));
+            //qlCommand.Parameters.AddWithValue("@uID", HttpUtility.UrlDecode(UserID));
+
+            //this time, we're not using a data adapter to fill a data table.  We're just
+            //opening the connection, telling our command to "executescalar" which says basically
+            //execute the query and just hand me back the number the query returns (the ID, remember?).
+            //don't forget to close the connection!
+            sqlConnection.Open();
+            //we're using a try/catch so that if the query errors out we can handle it gracefully
+            //by closing the connection and moving on
+            try
+            {
+                int accountID = Convert.ToInt32(sqlCommand.ExecuteScalar());
+                //here, you could use this accountID for additional queries regarding
+                //the requested account.  Really this is just an example to show you
+                //a query where you get the primary key of the inserted row back from
+                //the database!
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            sqlConnection.Close();
+        }
+
+        public double GetSentiment(string text, string sentimentType = "Compound")
+        {
+            /// Receives a text to be analyzed,
+            /// sentimentType parameter will be what sentiment analysis to return:
+            ///     Sentiment Types are "Positive", "Negative", "Neutral", or "Compound"
+            ///     Type defaults to compound score
+
+            // Creates an analyzer object
+            SentimentIntensityAnalyzer analyzer = new SentimentIntensityAnalyzer();
+
+            var results = analyzer.PolarityScores(text);
+
+            switch(sentimentType)
+            {
+                case "Positive":
+                    return Convert.ToDouble(results.Positive);
+                case "Negative":
+                    return Convert.ToDouble(results.Negative);
+                case "Neutral":
+                    return Convert.ToDouble(results.Neutral);
+                default:
+                    return Convert.ToDouble(results.Compound);
+            }
+                
+
+
+        }
+
     }
 }
