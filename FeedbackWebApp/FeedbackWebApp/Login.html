@@ -1,8 +1,10 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr" class="loginhtml>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache">
     <title>Login</title>
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <link rel="stylesheet" href="Feedback.css">
@@ -28,12 +30,11 @@
                 success: function (msg) {
                     if (msg.d == true) {
                         //show home page
+                        alert("here");
                         window.location = "dashboard.html";
                     }
-                    else { msg.d == false } {
-
-                        //show wrong password/account
-
+                    else {
+                        alert("bad credentials");
                     }
                 },
                 error: function (e) {
@@ -53,15 +54,15 @@
 </head>
 <body class="loginBody">
 	<div class="loginDiv">
-		<form class="loginForm" action="user.html">
+		<form class="loginForm" action="#">
 			<h1 class="loginTitle">Login</h1>
 				<div class="loginFormContent"><br>
-					<label id="Username" for="">Username:</label><br>
-					<input type="text"><br><br><br>
-					<label id="pass" for="">Password:</label><br>
-					<input type="Password"><br>
+					<label >Username:</label><br>
+					<input id="Username" type="text"><br><br><br>
+					<label for="">Password:</label><br>
+					<input id="pass" type="Password"><br>
 					<div class="submitButton">
-						<input type="submit" value="Log In" onclick="LogOn(document.getElementById('Username').value, document.getElementById('pass').value)">
+						<input type="button" value="Log In" onclick="LogOn(document.getElementById('Username').value, document.getElementById('pass').value)">
 					</div>
 					<a href="createaccount.html">Don't Have an Account Yet?</a>
 				</div>
