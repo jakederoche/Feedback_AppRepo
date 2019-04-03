@@ -1,23 +1,67 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<title>Login</title>
-	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-	<link rel="stylesheet" href="Feedback.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="Feedback.css">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+
+
+        //passes account info to the server, to create an account request
+        function LogOn(id, pass) {
+            //alert("here");
+            var webMethod = "AppServices.asmx/LogOn";
+            var parameters = "{\"uid\":\"" + encodeURI(id) + "\",\"pass\":\"" + encodeURI(pass) + "\"}";
+
+            $.ajax({
+                type: "POST",
+                url: webMethod,
+                data: parameters,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    if (msg.d == true) {
+                        //show home page
+                        window.location = "dashboard.html";
+                    }
+                    else { msg.d == false } {
+
+                        //show wrong password/account
+
+                    }
+                },
+                error: function (e) {
+                    alert("Error with login.");
+                }
+            });
+        }
+
+
+
+
+    </script>-->
+
+
+
+
 </head>
 <body class="loginBody">
 	<div class="loginDiv">
 		<form class="loginForm" action="user.html">
 			<h1 class="loginTitle">Login</h1>
 				<div class="loginFormContent"><br>
-					<label for="">Username:</label><br>
+					<label id="Username" for="">Username:</label><br>
 					<input type="text"><br><br><br>
-					<label for="">Password:</label><br>
+					<label id="pass" for="">Password:</label><br>
 					<input type="Password"><br>
 					<div class="submitButton">
-						<input type="submit" value="Log In">
+						<input type="submit" value="Log In" onclick="LogOn(document.getElementById('Username').value, document.getElementById('pass').value)">
 					</div>
 					<a href="createaccount.html">Don't Have an Account Yet?</a>
 				</div>
