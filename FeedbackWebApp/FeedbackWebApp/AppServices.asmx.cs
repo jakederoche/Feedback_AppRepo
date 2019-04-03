@@ -147,7 +147,7 @@ namespace FeedbackWebApp
             string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
             //the only thing fancy about this query is SELECT LAST_INSERT_ID() at the end.  All that
             //does is tell mySql server to return the primary key of the last inserted row.
-            string sqlSelect = "insert into user (UserPassword, UserAdmin, UserFirstName, UserLastName, UserEmpID, UserDepartment, UserDirectReport)" +
+            string sqlSelect = "insert into users (UserPassword, UserAdmin, UserFirstName, UserLastName, UserEmpID, UserDepartment, UserDirectReport)" +
                 "values(@passValue, @userAdmin, @userFirstName, @userLastName, @userEmpID, @userDepartment, @userDirectReport); SELECT LAST_INSERT_ID();";
 
             MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
