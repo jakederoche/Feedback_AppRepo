@@ -121,7 +121,7 @@ namespace FeedbackWebApp
 
             string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
             //this is a simple update, with parameters to pass in values
-            string sqlSelect = "delete from user_data where UserId=@idValue";
+            string sqlSelect = "delete from users where UserId=@idValue";
 
             MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
             MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
