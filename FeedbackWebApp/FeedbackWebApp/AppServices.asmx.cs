@@ -25,6 +25,7 @@ namespace FeedbackWebApp
         public bool LogOn(string uid, string pass)
         {
             //we return this flag to tell them if they logged in or not
+            //
             bool success = false;
 
             //our connection string comes from our web.config file like we talked about earlier
