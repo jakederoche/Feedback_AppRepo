@@ -1,19 +1,14 @@
-.center{
-	text-align: center;
-}
-
 /*Survey Css*/
 .heading{
 	text-align: center;
 }
 
 .SurveyBody{
-	background: #f4f3ef;
+	background:url("Img/Ocean1.jpg");
 	-webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
 }
 
 body .container{
@@ -24,46 +19,26 @@ body .container{
 }
 
 .container{
-	background: white;
+	background: linear-gradient(#A6D3E6, #E4C7C1);
 	height: 100vh;
 	width: 60%;
+	border: 1px solid black;
+	box-shadow: 2px 2px 5px 5px #7DA3AE;
 	margin-top: 0;
 	margin-bottom:0;
 	padding-left: 20px;
 	padding-bottom: 2%;
-	-webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-  box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);
 }
 
 .container label{
-	color: #51cbce;
 	font-weight: bold;
-}
-
-.submitSurvey{
-	background: #51cbce;
-	text-align: center;
-	border: none;
-	font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
-	color: white;
-	padding: 10px;
-	padding-right: 20px;
-	padding-left: 20px;
-	border-radius: 30px;
-	font-weight: bold;
-	cursor: pointer;
-}
-
-.submitSurvey:hover{
-	background: #46a4a7;
+	text-decoration: underline;
 }
 
 /*Journal Css*/
 
 .JournalBody{
-	background: #f4f3ef no-repeat center center fixed; 
+	background: url(Img/Journal.jpg) no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -79,17 +54,10 @@ textarea{
     right: 10px;
     width: 80%;
     resize: none;
-    background: white;
+    background: url(http://i.stack.imgur.com/ynxjD.png) repeat-y;
     font-size: 1.65em;
     border: none;
     outline: 0px;
-    -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-  box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);
-  font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
-  padding-left: 10px;
-  padding-right: 10px;
 }
 
 .alignText{
@@ -101,10 +69,24 @@ textarea{
 	margin: 0;
     text-align: center;
     margin-left: 40%;
-    color: black;
-    font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+    color: white;
 }
 
+.journalSubmit{
+	margin-top: 5px;
+	margin-bottom: 5px;
+	background: none;
+	color: white;
+	border: 2px solid white;
+	padding: 5px;
+}
+
+.journalSubmit:hover{
+	background: white;
+	cursor: pointer;
+	border: 2px solid white;
+	color: black;
+}
 
 /*Login CSS*/
 
