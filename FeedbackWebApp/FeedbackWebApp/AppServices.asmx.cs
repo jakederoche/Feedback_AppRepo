@@ -142,8 +142,8 @@ namespace FeedbackWebApp
         }
 
         //EXAMPLE OF AN INSERT QUERY WITH PARAMS PASSED IN.  BONUS GETTING THE INSERTED ID FROM THE DB!
-        [WebMethod(EnableSession = true)]
         //public void CreateAccount(string UserName, string UserPassword, string UserAdmin, string UserFirstName, string UserLastName, string UserEmpID, string UserDepartment, string UserDirectReport)
+        [WebMethod(EnableSession = true)]        
         public void CreateAccount(string UserName, string UserPassword, string UserAdmin, string UserFirstName, string UserLastName, string UserDepartment)
         {
             string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;

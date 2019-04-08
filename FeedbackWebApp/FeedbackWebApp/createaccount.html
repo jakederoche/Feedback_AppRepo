@@ -10,12 +10,12 @@
     <script>
         // Shell function to compile variables to then call CreateAccount function
         function Create() {
-            user = document.getElementById('user');
-            pass = document.getElementById('pass');
-            admin = document.getElementById('admin');
-            fName = document.getElementById('fName');
-            lname = document.getElementById('lNamee');
-            dept = document.getElementById('dept');
+            user = document.getElementById('user').value;
+            pass = document.getElementById('pass').value;
+            admin = document.getElementById('admin').value;
+            fName = document.getElementById('fName').value;
+            lname = document.getElementById('lName').value;
+            dept = document.getElementById('dept').value;
 
             CreateAccount(user, pass, admin, fName, lName, dept);
         }
