@@ -1,11 +1,14 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<title>Create Account</title>
-	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-	<link rel="stylesheet" href="Feedback.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Account</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="Feedback.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 
     <script>
         // Shell function to compile variables to then call CreateAccount function
@@ -14,7 +17,7 @@
             pass = document.getElementById('pass').value;
             admin = document.getElementById('admin').value;
             fName = document.getElementById('fName').value;
-            lname = document.getElementById('lName').value;
+            lName = document.getElementById('lName').value;
             dept = document.getElementById('dept').value;
 
             CreateAccount(user, pass, admin, fName, lName, dept);
@@ -26,9 +29,10 @@
         function CreateAccount(user, pass, admin, fName, lName, dept) {
             // Method to pass variables to the asmx function to create and account
             var webMethod = "AppServices.asmx/CreateAccount";
-            var parameters = "{\"user\":\"" + encodeURI(user) + "\",\"pass\":\"" + encodeURI(pass) + "\",\"admin\":\"" + encodeURI(admin) +
-                "\",\"fName\":\"" + encodeURI(fName) + "\",\"lName\":\"" + encodeURI(lName) + "\",\"dept\":\"" + encodeURI(dept);
+            var parameters = "{\"UserName\":\"" + encodeURI(user) + "\",\"UserPassword\":\"" + encodeURI(pass) + "\",\"UserAdmin\":\"" + encodeURI(admin) +
+                "\",\"UserFirstName\":\"" + encodeURI(fName) + "\",\"UserLastName\":\"" + encodeURI(lName) + "\",\"UserDepartment\":\"" + encodeURI(dept) + "\"}";
 
+            alert("in code");
             // AJAX call to pass the variables
             $.ajax({
                 type: "POST",
@@ -37,17 +41,15 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (msg) {
-                    if (msg.d == true) {
-                        //show home page
-                        alert("here");
-                        window.location = "login.html";
-                    }
-                    else {
-                        alert("bad credentials");
-                    }
+
+                    alert("success");
+                    window.location = "Login.html";
+
+
+
                 },
                 error: function (e) {
-                    alert("Error with login.");
+                    alert("Errow with account registration.");
                 }
             });
         }
@@ -55,7 +57,7 @@
 </head>
 <body class="createBody">
 	<div class="loginDiv">
-		<form class="createForm" action="Login.html">
+		<form class="createForm">
 			<h1 class="loginTitle">Create Account</h1>
             <div class="loginFormContent">
                 <br>
@@ -78,8 +80,8 @@
                 <input type="text" id="dept" required>
 
                 <div class="submitButton">
-                    <input type="submit" value="Create Account" onclick="Create()">
-                </div>
+                    <input type="button" value="Create Account" onclick="Create()">
+                </div>  
             </div>
 		</form>
 	</div>
