@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
@@ -6,34 +6,81 @@
 	<title>Create Account</title>
 	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 	<link rel="stylesheet" href="Feedback.css">
+
+    <script>
+        // Shell function to compile variables to then call CreateAccount function
+        function Create() {
+            user = document.getElementById('user');
+            pass = document.getElementById('pass');
+            admin = document.getElementById('admin');
+            fName = document.getElementById('fName');
+            lname = document.getElementById('lNamee');
+            dept = document.getElementById('dept');
+
+            CreateAccount(user, pass, admin, fName, lName, dept);
+        }
+
+
+        //passes account info to the server, to create an account request
+        // function CreateAccount(user, pass, admin, fName, lName, empId, dept, dirRept) {
+        function CreateAccount(user, pass, admin, fName, lName, dept) {
+            // Method to pass variables to the asmx function to create and account
+            var webMethod = "AppServices.asmx/CreateAccount";
+            var parameters = "{\"user\":\"" + encodeURI(user) + "\",\"pass\":\"" + encodeURI(pass) + "\",\"admin\":\"" + encodeURI(admin) +
+                "\",\"fName\":\"" + encodeURI(fName) + "\",\"lName\":\"" + encodeURI(lName) + "\",\"dept\":\"" + encodeURI(dept);
+
+            // AJAX call to pass the variables
+            $.ajax({
+                type: "POST",
+                url: webMethod,
+                data: parameters,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    if (msg.d == true) {
+                        //show home page
+                        alert("here");
+                        window.location = "login.html";
+                    }
+                    else {
+                        alert("bad credentials");
+                    }
+                },
+                error: function (e) {
+                    alert("Error with login.");
+                }
+            });
+        }
+    </script>
 </head>
 <body class="createBody">
 	<div class="loginDiv">
 		<form class="createForm" action="Login.html">
 			<h1 class="loginTitle">Create Account</h1>
-				<div class="loginFormContent"><br>
-					<label for="">Username:</label><br>
-					<input type="text" required><br>
+            <div class="loginFormContent">
+                <br>
+                <label for="">Username:</label><br>
+                <input type="text" id="user" required><br>
 
-					<label for="">Password:</label><br>
-					<input type="Password" required><br>
+                <label for="">Password:</label><br>
+                <input type="Password" id="pass" required><br>
 
-					<label for="">Repeat Password:</label><br>
-					<input type="Password" required><br>
+                <label for="">First Name:</label><br>
+                <input type="text" id="fName" required><br>
 
-					<label for="">First Name:</label><br>
-					<input type="text" required><br>
+                <label for="">Last Name:</label><br>
+                <input type="text" id="lName" required><br>
 
-					<label for="">Last Name:</label><br>
-					<input type="text" required><br>
+                <label for="">Admin? (1 or 0):</label><br>
+                <input type="text" id="admin" required><br>
 
-					<label for="">Department:</label><br>
-					<input type="text" required>
+                <label for="">Department:</label><br>
+                <input type="text" id="dept" required>
 
-					<div class="submitButton">
-						<input type="submit" value="Create Account">
-					</div>
-				</div>
+                <div class="submitButton">
+                    <input type="submit" value="Create Account" onclick="Create()">
+                </div>
+            </div>
 		</form>
 	</div>
 </body>

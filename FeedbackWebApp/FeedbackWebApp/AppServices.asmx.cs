@@ -143,24 +143,26 @@ namespace FeedbackWebApp
 
         //EXAMPLE OF AN INSERT QUERY WITH PARAMS PASSED IN.  BONUS GETTING THE INSERTED ID FROM THE DB!
         [WebMethod(EnableSession = true)]
-        public void CreateAccount(string UserPassword, string UserAdmin, string UserFirstName, string UserLastName, string UserEmpID, string UserDepartment, string UserDirectReport)
+        //public void CreateAccount(string UserName, string UserPassword, string UserAdmin, string UserFirstName, string UserLastName, string UserEmpID, string UserDepartment, string UserDirectReport)
+        public void CreateAccount(string UserName, string UserPassword, string UserAdmin, string UserFirstName, string UserLastName, string UserDepartment)
         {
             string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
             //the only thing fancy about this query is SELECT LAST_INSERT_ID() at the end.  All that
             //does is tell mySql server to return the primary key of the last inserted row.
-            string sqlSelect = "insert into users (UserPassword, UserAdmin, UserFirstName, UserLastName, UserEmpID, UserDepartment, UserDirectReport)" +
-                "values(@passValue, @userAdmin, @userFirstName, @userLastName, @userEmpID, @userDepartment, @userDirectReport); SELECT LAST_INSERT_ID();";
+            string sqlSelect = "insert into users (UserName, UserPassword, UserAdmin, UserFirstName, UserLastName, , UserDepartment, )" +
+                "values(@nameValue, @passValue, @userAdmin, @userFirstName, @userLastName, , @userDepartment, ); SELECT LAST_INSERT_ID();";
 
             MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
             MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
 
+            sqlCommand.Parameters.AddWithValue("@nameValue", HttpUtility.UrlDecode(UserName));
             sqlCommand.Parameters.AddWithValue("@passValue", HttpUtility.UrlDecode(UserPassword));
             sqlCommand.Parameters.AddWithValue("@userAdmin", HttpUtility.UrlDecode(UserAdmin));
             sqlCommand.Parameters.AddWithValue("@userFirstName", HttpUtility.UrlDecode(UserFirstName));
             sqlCommand.Parameters.AddWithValue("@userLastName", HttpUtility.UrlDecode(UserLastName));
-            sqlCommand.Parameters.AddWithValue("@userEmpID", HttpUtility.UrlDecode(UserEmpID));
+            //sqlCommand.Parameters.AddWithValue("@userEmpID", HttpUtility.UrlDecode(UserEmpID));
             sqlCommand.Parameters.AddWithValue("@userDepartment", HttpUtility.UrlDecode(UserDepartment));
-            sqlCommand.Parameters.AddWithValue("@userDirectReport", HttpUtility.UrlDecode(UserDirectReport));
+            //sqlCommand.Parameters.AddWithValue("@userDirectReport", HttpUtility.UrlDecode(UserDirectReport));
             //qlCommand.Parameters.AddWithValue("@uID", HttpUtility.UrlDecode(UserID));
 
             //this time, we're not using a data adapter to fill a data table.  We're just
@@ -209,7 +211,7 @@ namespace FeedbackWebApp
                     return Convert.ToDouble(results.Compound);
             }
                 
-
+             
 
         }
 
@@ -223,12 +225,12 @@ namespace FeedbackWebApp
             //Keeps everything simple.
 
             //WE ONLY SHARE ACCOUNTS WITH LOGGED IN USERS!
-            if (Session["id"] != null)
+             if (Session["id"] != null)
             {
                 DataTable sqlDt = new DataTable("dashboard");
 
                 string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
-                string sqlSelect = "select totalResponses, totalEmployees, responseRate from dashboard where active=1";
+                string sqlSelect = "select totalResponses, totalEmployees, responseRate from dashboard_view where active=1";
 
                 MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
                 MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
