@@ -213,5 +213,67 @@ namespace FeedbackWebApp
 
         }
 
+        //EXAMPLE OF A SELECT, AND RETURNING "COMPLEX" DATA TYPES
+        [WebMethod(EnableSession = true)]
+        public Dashboard[] GetData()
+        {
+            //check out the return type.  It's an array of Account objects.  You can look at our custom Account class in this solution to see that it's 
+            //just a container for public class-level variables.  It's a simple container that asp.net will have no trouble converting into json.  When we return
+            //sets of information, it's a good idea to create a custom container class to represent instances (or rows) of that information, and then return an array of those objects.  
+            //Keeps everything simple.
+
+            //WE ONLY SHARE ACCOUNTS WITH LOGGED IN USERS!
+            if (Session["id"] != null)
+            {
+                DataTable sqlDt = new DataTable("dashboard");
+
+                string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
+                string sqlSelect = "select totalResponses, totalEmployees, responseRate from dashboard where active=1";
+
+                MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
+                MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+                //gonna use this to fill a data table
+                MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
+                //filling the data table
+                sqlDa.Fill(sqlDt);
+
+                //loop through each row in the dataset, creating instances
+                //of our container class Account.  Fill each acciount with
+                //data from the rows, then dump them in a list.
+                List<Dashboard> dashboard = new List<Dashboard>();
+                for (int i = 0; i < sqlDt.Rows.Count; i++)
+                {
+                    //only share user id and pass info with admins!
+                    if (Convert.ToInt32(Session["admin"]) == 1)
+                    {
+                        dashboard.Add(new Dashboard
+                        {
+
+                            totalResponses = sqlDt.Rows[i]["totalResponses"].ToString(),
+                            totalEmployees = sqlDt.Rows[i]["totalEmployees"].ToString(),
+                            responseRate = sqlDt.Rows[i]["responseRate"].ToString(),
+                        });
+                    }
+                    else
+                    {
+                        dashboard.Add(new Dashboard
+                        {
+                            totalResponses = sqlDt.Rows[i]["totalResponses"].ToString(),
+                            totalEmployees = sqlDt.Rows[i]["totalEmployees"].ToString(),
+                            responseRate = sqlDt.Rows[i]["responseRate"].ToString(),
+                        });
+                    }
+                }
+                //convert the list of accounts to an array and return!
+                return dashboard.ToArray();
+            }
+            else
+            {
+                //if they're not logged in, return an empty array
+                return new Dashboard[0];
+            }
+        }
+
     }
 }

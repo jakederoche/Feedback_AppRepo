@@ -2,190 +2,288 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>
-    Admin Dashboard
-  </title>
-  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-  <!--     Fonts and icons     -->
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-  <!-- CSS Files -->
-  <link href="./bootstrap.min.css" rel="stylesheet" />
-  <link href="./paper-dashboard.css?v=2.0.0" rel="stylesheet" />
-  <!-- CSS Just for demo purpose, don't include it in your project -->
-  <link href="./demo.css" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>
+        Admin Dashboard
+    </title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <!-- CSS Files -->
+    <link href="./bootstrap.min.css" rel="stylesheet" />
+    <link href="./paper-dashboard.css?v=2.0.0" rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="./demo.css" rel="stylesheet" />
+
+    <script type="text/javascript">
+
+        //when we retrieve accounts, we'll put them here
+        //so that we can reference them later for admins
+        //that may want to edit accounts
+        var dashboardArray;
+        //to begin with, we assume that the account is not an admin
+        var admin = false;
+
+        //this function grabs accounts and loads our account window
+        function LoadData() {
+            var webMethod = "AccountServices.asmx/GetData";
+            $.ajax({
+                type: "POST",
+                url: webMethod,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    if (msg.d.length > 0) {
+                        //let's put our accounts that we get from the
+                        //server into our accountsArray variable
+                        //so we can use them in other functions as well
+                        dashboardArray = msg.d;
+                        //this clears out the div that will hold our account info
+                        $("#numbers").empty();
+                        //again, we assume we're not an admin unless we see data from the server
+                        //that we know only admins can see
+                        admin = false;
+                        for (var i = 0; i < dashboardArray.length; i++) {
+                            //we grab on to a specific html element in jQuery
+                            //by using a  # followed by that element's id.
+                            var dash;
+                            //if they have access to admin-level info (like userid and password) then
+                            //create output that has an edit option
+                            if (dashboardArray[i].userId != null) {
+                                dash = "<div class='card-category' totalResponses='acct" + dashboardArray[i].totalResponses + "'>" +
+                                    "<a class='card-title' href='mailto:" + dashboardArray[i].totalEmployees + "'>" +
+                                    dashboardArray[i].responseRate + " " + 
+                                    "</a> <a href='#' onclick='LoadAccount(" + dashboardArray[i].id + ")' class='optionsTag'>edit</a></div><hr>"
+                                admin = true;
+                            }
+                            //if not, then they're not an admin so don't include the edit option
+                            else {
+                                dash = "<div class='card-category' totalResponses='acct" + dashboardArray[i].totalResponses + "'>" +
+                                    "<a class='card-title' href='mailto:" + dashboardArray[i].totalEmployees + "'>" +
+                                    dashboardArray[i].responseRate + " " +
+                                    "</a></div><hr>"
+                                  
+                            }
+                            $("#numbers").append(
+                                //anything we throw at our panel in the form of text
+                                //will be added to the contents of that panel.  Here
+                                //we're putting together a div that holds info on the
+                                //account as well as an edit link if the user is an admin
+                                dash
+                            );
+                        }
+                    }
+                    //we're showing the account window, so let's track that...
+                    //accountWindowShowing = true;
+                    //...because the ShowMenu function behaves differently depending on
+                    //if the account window is showing or not
+                    //ShowMenu();
+                },
+                error: function (e) {
+                    alert("boo...");
+                }
+            });
+        }
+
+        //hold on to the account being currently edited here
+		var current;
+		//load up an account for editing
+		function LoadAccount(id) {
+			//showPanel('editAccountPanel');
+			current = null;
+			//find the account with a matching id in our array
+			for (var i = 0; i < dashboardArray.length; i++) {
+				if (dashboardArray[i].id == id) {
+					current = dashboardArray[i]
+				}
+			}
+			//set up our inputs
+			if (currentt != null) {
+				$('#editLogonId').val(current.id);
+                $('#editTotalResponses').val(current.totalResponses);
+                $('#editTotalEmployees').val(current.totalEmployees);
+                $('#editResponseRate').val(current.responseRate);
+				
+			}
+		}
+
+
+    </script>-->
+
+
+
 </head>
 
-<body class="">
-  <div class="wrapper ">
-    <div class="sidebar" data-color="white" data-active-color="danger">
-      <!--
-        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
-    -->
-      <div class="logo">
-        <a class="simple-text logo-mini">
-          <div class="logo-image-small">
-            <img src="./img/logo-small.png">
+                                    <body class="">
+                                        <div class="wrapper ">
+                                            <div class="sidebar" data-color="white" data-active-color="danger">
+                                                <!--
+            Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
+        -->
+          <div class="logo">
+                                                    <a class="simple-text logo-mini">
+                                                        <div class="logo-image-small">
+                                                            <img src="./img/logo-small.png">
+              </div>
+            </a>
+                                                        <a class="simple-text logo-normal">
+                                                            Shirley
+              <!-- <div class="logo-image-big">
+                                                                <img src="../assets/img/logo-big.png">
+              </div> -->
+            </a>
           </div>
-        </a>
-        <a class="simple-text logo-normal">
-          Shirley
-          <!-- <div class="logo-image-big">
-            <img src="../assets/img/logo-big.png">
-          </div> -->
-        </a>
-      </div>
-      <div class="sidebar-wrapper">
-          <ul class="nav">
-              <li>
-                  <a href="./user.html">
-                      <i class="nc-icon nc-single-02"></i>
-                      <p>User Profile</p>
-                  </a>
-              </li>
-              <li class="active ">
-                  <a href="./dashboard.html">
-                      <i class="nc-icon nc-bank"></i>
-                      <p>Dashboard</p>
-                  </a>
-              </li>
-              <li>
-                  <a href="./tables.html">
-                      <i class="nc-icon nc-tile-56"></i>
-                      <p>Table List</p>
-                  </a>
-              </li>
-              <li>
-                  <a href="./Feedback.html">
-                      <i class="nc-icon nc-tile-56"></i>
-                      <p>Feedback Survey</p>
-                  </a>
-              </li>
-              <li>
-                  <a href="./Journal.html">
-                      <i class="nc-icon nc-tile-56"></i>
-                      <p>Anonymous Journal</p>
-                  </a>
-              </li>
-          </ul>
-      </div>
+                                                        <div class="sidebar-wrapper">
+                                                            <ul class="nav">
+                                                                <li>
+                                                                    <a href="./user.html">
+                                                                        <i class="nc-icon nc-single-02"></i>
+                                                                        <p>User Profile</p>
+                                                                    </a>
+                                                                </li>
+                                                                <li class="active ">
+                                                                    <a href="./dashboard.html">
+                                                                        <i class="nc-icon nc-bank"></i>
+                                                                        <p>Dashboard</p>
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="./tables.html">
+                                                                        <i class="nc-icon nc-tile-56"></i>
+                                                                        <p>Table List</p>
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="./Feedback.html">
+                                                                        <i class="nc-icon nc-tile-56"></i>
+                                                                        <p>Feedback Survey</p>
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="./Journal.html">
+                                                                        <i class="nc-icon nc-tile-56"></i>
+                                                                        <p>Anonymous Journal</p>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+        </div>
+                                                    <div class="main-panel">
+                                                        <!-- Navbar -->
+          <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+                                                            <div class="container-fluid">
+                                                                <div class="navbar-wrapper">
+                                                                    <div class="navbar-toggle">
+                                                                        <button type="button" class="navbar-toggler">
+                                                                            <span class="navbar-toggler-bar bar1"></span>
+                                                                            <span class="navbar-toggler-bar bar2"></span>
+                                                                            <span class="navbar-toggler-bar bar3"></span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <a class="navbar-brand" href="#pablo">Feedback Responses Dashboard</a>
+                                                                </div>
+                                                            </div>
+                                                        </nav>
+                                                        <!-- End Navbar -->
+          <!-- <div class="panel-header panel-header-lg">
+
+                                                            <canvas id="bigDashboardChart"></canvas>
+
+                                                        </div> -->
+          <div class="content">
+                                                            <div class="row">
+                                                                <div class="col-lg-3 col-md-6 col-sm-6">
+                                                                    <div class="card card-stats">
+                                                                        <div class="card-body ">
+                                                                            <div class="row">
+                                                                                <div class="col-5 col-md-4">
+                                                                                    <div class="icon-big text-center icon-warning">
+                                                                                        <i class="nc-icon nc-globe text-warning"></i>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-7 col-md-8">
+                                                                                    <div class="numbers">
+                                                                                        <p class="card-category">Total Responses</p>
+                                                                                        <p class="card-title">650
+                            <p>
+                        </div>
+                      </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-3 col-md-6 col-sm-6">
+                                                                            <div class="card card-stats">
+                                                                                <div class="card-body ">
+                                                                                    <div class="row">
+                                                                                        <div class="col-5 col-md-4">
+                                                                                            <div class="icon-big text-center icon-warning">
+                                                                                                <i class="nc-icon nc-money-coins text-success"></i>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-7 col-md-8">
+                                                                                            <div class="numbers">
+                                                                                                <p class="card-category">Total Employees</p>
+                                                                                                <p class="card-title">1000
+                            <p>
+                        </div>
+                      </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-lg-3 col-md-6 col-sm-6">
+                                                                                    <div class="card card-stats">
+                                                                                        <div class="card-body ">
+                                                                                            <div class="row">
+                                                                                                <div class="col-5 col-md-4">
+                                                                                                    <div class="icon-big text-center icon-warning">
+                                                                                                        <i class="nc-icon nc-vector text-danger"></i>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-7 col-md-8">
+                                                                                                    <div class="numbers">
+                                                                                                        <p class="card-category">Response Rate</p>
+                                                                                                        <p class="card-title">65%
+                            <p>
+                        </div>
+                      </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-12">
+                                                                                                <div class="card ">
+                                                                                                    <div class="card-header ">
+                                                                                                        <h5 class="card-title">Responses</h5>
+                                                                                                        <p class="card-category">Performance per month</p>
+                                                                                                    </div>
+                                                                                                    <div class="card-body ">
+                                                                                                        <canvas id=chartHours width="1100" height="400"></canvas>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <footer class="footer footer-black  footer-white ">
+                                                                                    <div class="container-fluid">
+                                                                                        <div class="row">
+                                                                                            <div class="credits ml-auto">
+                                                                                                <span class="copyright">
+                                                                                                    ©
+                    <script>
+                                                                                                        document.write(new Date().getFullYear())
+    </script>, Made by ScrumOfTheEarth
+    </span>
     </div>
-    <div class="main-panel">
-      <!-- Navbar -->
-      <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
-        <div class="container-fluid">
-          <div class="navbar-wrapper">
-            <div class="navbar-toggle">
-              <button type="button" class="navbar-toggler">
-                <span class="navbar-toggler-bar bar1"></span>
-                <span class="navbar-toggler-bar bar2"></span>
-                <span class="navbar-toggler-bar bar3"></span>
-              </button>
-            </div>
-            <a class="navbar-brand" href="#pablo">Feedback Responses Dashboard</a>
-          </div>
-        </div>
-      </nav>
-      <!-- End Navbar -->
-      <!-- <div class="panel-header panel-header-lg">
-  
-  <canvas id="bigDashboardChart"></canvas>
-  
-</div> -->
-      <div class="content">
-        <div class="row">
-          <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="card card-stats">
-              <div class="card-body ">
-                <div class="row">
-                  <div class="col-5 col-md-4">
-                    <div class="icon-big text-center icon-warning">
-                      <i class="nc-icon nc-globe text-warning"></i>
-                    </div>
-                  </div>
-                  <div class="col-7 col-md-8">
-                    <div class="numbers">
-                      <p class="card-category">Total Responses</p>
-                      <p class="card-title">650
-                        <p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="card card-stats">
-              <div class="card-body ">
-                <div class="row">
-                  <div class="col-5 col-md-4">
-                    <div class="icon-big text-center icon-warning">
-                      <i class="nc-icon nc-money-coins text-success"></i>
-                    </div>
-                  </div>
-                  <div class="col-7 col-md-8">
-                    <div class="numbers">
-                      <p class="card-category">Total Employees</p>
-                      <p class="card-title">1000
-                        <p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="card card-stats">
-              <div class="card-body ">
-                <div class="row">
-                  <div class="col-5 col-md-4">
-                    <div class="icon-big text-center icon-warning">
-                      <i class="nc-icon nc-vector text-danger"></i>
-                    </div>
-                  </div>
-                  <div class="col-7 col-md-8">
-                    <div class="numbers">
-                      <p class="card-category">Response Rate</p>
-                      <p class="card-title">65%
-                        <p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card ">
-              <div class="card-header ">
-                <h5 class="card-title">Responses</h5>
-                <p class="card-category">Performance per month</p>
-              </div>
-              <div class="card-body ">
-                <canvas id=chartHours width="1100" height="400"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-        </div>
-      </div>
-      <footer class="footer footer-black  footer-white ">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="credits ml-auto">
-              <span class="copyright">
-                ©
-                <script>
-                  document.write(new Date().getFullYear())
-                </script>, Made by ScrumOfTheEarth
-              </span>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
-  </div>
-</body>
+    </div>
+    </footer>
+    </div>
+    </div>
+    </body>
 </html>
