@@ -262,7 +262,7 @@
                                                                                                         <p class="card-category">Performance per month</p>
                                                                                                     </div>
                                                                                                     <div class="card-body ">
-                                                                                                        <canvas id=chartHours width="1100" height="400"></canvas>
+                                                                                                        <canvas id=speedChart width="1100" height="400"></canvas>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
@@ -285,5 +285,16 @@
     </footer>
     </div>
     </div>
+
+<!--   Core JS Files   -->
+<!-- Chart JS -->
+<script src="../assets/js/plugins/chartjs.min.js"></script>
+<script>
+  $(document).ready(function() {
+    // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
+    demo.initChartsPages();
+  });
+</script>
+
     </body>
 </html>
