@@ -112,17 +112,6 @@ namespace FeedbackWebApp
                     user.department = sqlDt.Rows[0]["UserDepartment"].ToString();
                 }
 
-
-                //try
-                //{
-                //    user.userName = 
-                //}
-                //catch (Exception)
-                //{
-
-                //    throw;
-                //}
-
             }
 
             return user;
@@ -333,28 +322,39 @@ namespace FeedbackWebApp
 
         //EXAMPLE OF AN INSERT QUERY WITH PARAMS PASSED IN.  BONUS GETTING THE INSERTED ID FROM THE DB!
         //public void CreateAccount(string UserName, string UserPassword, string UserAdmin, string UserFirstName, string UserLastName, string UserEmpID, string UserDepartment, string UserDirectReport)
+        // Receives an array of survey responses, then passes them individually to the Store Responses function to be stored in the database
         [WebMethod(EnableSession = true)]
-        public void SurveyResponse(string ResponseID, string userID, string surveyResponse, string questionID, string surveyID)
+        public void SurveyResponse(string r1, string r2, string r3)
         {
-            int accountID = -1;
+            string[] surveyResponses = new string[] { r1, r2, r3 };
+            for(int i = 0; i < surveyResponses.Length; i++)
+            {
+                StoreResponse(i + 1, surveyResponses[i]);
+            }
+
+        }
+
+        // Method to store the response data into the database
+        // Will be called from 
+        [WebMethod(EnableSession = true)]
+        private void StoreResponse(int questionNumber, string response)
+        {
+            double responseSentiment = GetSentiment(response);
             string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
             //the only thing fancy about this query is SELECT LAST_INSERT_ID() at the end.  All that
             //does is tell mySql server to return the primary key of the last inserted row.
-            string sqlSelect = "insert into users (ResponseID, userID, surveyResponse, questionID, surveyID)" +
-                "values(@responseID, @userID, @surveyResponse, @questionID, @surveyID); SELECT LAST_INSERT_ID();";
+            string sqlSelect = "insert into response (userID, surveyResponse, questionID, surveyID, sentiment)" +
+                "values(@userID, @surveyResponse, @questionID, @surveyID, @sentiment); SELECT LAST_INSERT_ID();";
 
             MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
             MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
 
-            sqlCommand.Parameters.AddWithValue("@responseID", HttpUtility.UrlDecode(ResponseID));
-            sqlCommand.Parameters.AddWithValue("@userID", HttpUtility.UrlDecode(userID));
-            sqlCommand.Parameters.AddWithValue("@surveyResponse", HttpUtility.UrlDecode(surveyResponse));
-            sqlCommand.Parameters.AddWithValue("@questionID", HttpUtility.UrlDecode(questionID));
-            sqlCommand.Parameters.AddWithValue("@surveyID", HttpUtility.UrlDecode(surveyID));
-            //sqlCommand.Parameters.AddWithValue("@userEmpID", HttpUtility.UrlDecode(UserEmpID));
-            
-            //sqlCommand.Parameters.AddWithValue("@userDirectReport", HttpUtility.UrlDecode(UserDirectReport));
-            //qlCommand.Parameters.AddWithValue("@uID", HttpUtility.UrlDecode(UserID));
+            //sqlCommand.Parameters.AddWithValue("@responseID", HttpUtility.UrlDecode(ResponseID));
+            sqlCommand.Parameters.AddWithValue("@userID", HttpUtility.UrlDecode(Session["id"].ToString()));
+            sqlCommand.Parameters.AddWithValue("@surveyResponse", HttpUtility.UrlDecode(response));
+            sqlCommand.Parameters.AddWithValue("@questionID", HttpUtility.UrlDecode(questionNumber.ToString()));
+            sqlCommand.Parameters.AddWithValue("@surveyID", HttpUtility.UrlDecode("1"));
+            sqlCommand.Parameters.AddWithValue("@sentiment", HttpUtility.UrlDecode(responseSentiment.ToString()));
 
             //this time, we're not using a data adapter to fill a data table.  We're just
             //opening the connection, telling our command to "executescalar" which says basically
@@ -365,7 +365,7 @@ namespace FeedbackWebApp
             //by closing the connection and moving on
             try
             {
-                accountID = Convert.ToInt32(sqlCommand.ExecuteScalar());
+                //accountID = Convert.ToInt32(sqlCommand.ExecuteScalar());
                 //here, you could use this accountID for additional queries regarding
                 //the requested account.  Really this is just an example to show you
                 //a query where you get the primary key of the inserted row back from
@@ -377,7 +377,6 @@ namespace FeedbackWebApp
                 throw e;
             }
             sqlConnection.Close();
-            //return accountID;
 
         }
 
