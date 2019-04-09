@@ -12,10 +12,10 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
     <!-- CSS Files -->
-    <link href="./bootstrap.min.css" rel="stylesheet" />
-    <link href="./paper-dashboard.css?v=2.0.0" rel="stylesheet" />
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../assets/css/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link href="./demo.css" rel="stylesheet" />
+    <link href="../assets/demo/demo.css" rel="stylesheet" />
 
     <script type="text/javascript">
 
@@ -256,13 +256,20 @@
                                                                                         </div>
                                                                                         <div class="row">
                                                                                             <div class="col-md-12">
-                                                                                                <div class="card ">
+                                                                                                <div class="card card-chart">
                                                                                                     <div class="card-header ">
                                                                                                         <h5 class="card-title">Responses</h5>
                                                                                                         <p class="card-category">Performance per month</p>
                                                                                                     </div>
                                                                                                     <div class="card-body ">
-                                                                                                        <canvas id=chartHours width="1100" height="400"></canvas>
+                                                                                                        <canvas id="speedChart" width="1100" height="400"></canvas>
+                                                                                                    </div>
+                                                                                                    <div class="card-footer">
+                                                                                                        <div class="chart-legend">
+                                                                                                          <i class="fa fa-circle text-info"></i> Total Responses
+                                                                                                          <i class="fa fa-circle text-warning"></i> Total Employees
+                                                                                                        </div>
+                                                                                                        <hr/>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
