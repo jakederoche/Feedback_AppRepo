@@ -328,5 +328,55 @@ namespace FeedbackWebApp
             }
         }
 
+        //EXAMPLE OF AN INSERT QUERY WITH PARAMS PASSED IN.  BONUS GETTING THE INSERTED ID FROM THE DB!
+        //public void CreateAccount(string UserName, string UserPassword, string UserAdmin, string UserFirstName, string UserLastName, string UserEmpID, string UserDepartment, string UserDirectReport)
+        [WebMethod(EnableSession = true)]
+        public void SurveyResponse(string ResponseID, string userID, string surveyResponse, string questionID, string surveyID)
+        {
+            int accountID = -1;
+            string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
+            //the only thing fancy about this query is SELECT LAST_INSERT_ID() at the end.  All that
+            //does is tell mySql server to return the primary key of the last inserted row.
+            string sqlSelect = "insert into users (ResponseID, userID, surveyResponse, questionID, surveyID)" +
+                "values(@responseID, @userID, @surveyResponse, @questionID, @surveyID); SELECT LAST_INSERT_ID();";
+
+            MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+            sqlCommand.Parameters.AddWithValue("@responseID", HttpUtility.UrlDecode(ResponseID));
+            sqlCommand.Parameters.AddWithValue("@userID", HttpUtility.UrlDecode(userID));
+            sqlCommand.Parameters.AddWithValue("@surveyResponse", HttpUtility.UrlDecode(surveyResponse));
+            sqlCommand.Parameters.AddWithValue("@questionID", HttpUtility.UrlDecode(questionID));
+            sqlCommand.Parameters.AddWithValue("@surveyID", HttpUtility.UrlDecode(surveyID));
+            //sqlCommand.Parameters.AddWithValue("@userEmpID", HttpUtility.UrlDecode(UserEmpID));
+            
+            //sqlCommand.Parameters.AddWithValue("@userDirectReport", HttpUtility.UrlDecode(UserDirectReport));
+            //qlCommand.Parameters.AddWithValue("@uID", HttpUtility.UrlDecode(UserID));
+
+            //this time, we're not using a data adapter to fill a data table.  We're just
+            //opening the connection, telling our command to "executescalar" which says basically
+            //execute the query and just hand me back the number the query returns (the ID, remember?).
+            //don't forget to close the connection!
+            sqlConnection.Open();
+            //we're using a try/catch so that if the query errors out we can handle it gracefully
+            //by closing the connection and moving on
+            try
+            {
+                accountID = Convert.ToInt32(sqlCommand.ExecuteScalar());
+                //here, you could use this accountID for additional queries regarding
+                //the requested account.  Really this is just an example to show you
+                //a query where you get the primary key of the inserted row back from
+                //the database!
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            sqlConnection.Close();
+            //return accountID;
+
+        }
+
     }
 }
