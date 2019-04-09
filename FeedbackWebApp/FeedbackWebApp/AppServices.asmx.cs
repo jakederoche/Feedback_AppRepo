@@ -78,6 +78,53 @@ namespace FeedbackWebApp
             return true;
         }
 
+        [WebMethod(EnableSession = true)]
+        public User GetUser(string uid)
+        {
+            User user = new User();
+            if (Session["id"] != null)
+            {
+                DataTable sqlDt = new DataTable("users");
+
+                string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
+                string sqlSelect = "select UserName, UserAdmin, UserFirstName, UserLastName, UserDepartment from users where UserID=@uid";
+
+                MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
+                MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+                // Add the uid value that we get from the login page
+                sqlCommand.Parameters.AddWithValue("@uid", HttpUtility.UrlDecode(uid));
+
+                MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
+
+                sqlDa.Fill(sqlDt);
+                
+
+                if (sqlDt.Rows.Count == 1)
+                {
+                    user.userName = sqlDt.Rows[0]["UserName"].ToString();
+                    user.firstName = sqlDt.Rows[0]["UserFirstName"].ToString();
+                    user.lastName = sqlDt.Rows[0]["UserLastName"].ToString();
+                    user.admin = sqlDt.Rows[0]["UserAdmin"].ToString();
+                    user.department = sqlDt.Rows[0]["UserDepartment"].ToString();
+                }
+
+
+                //try
+                //{
+                //    user.userName = 
+                //}
+                //catch (Exception)
+                //{
+
+                //    throw;
+                //}
+
+            }
+
+            return user;
+        }
+
         ////EXAMPLE OF AN UPDATE QUERY WITH PARAMS PASSED IN
         //[WebMethod(EnableSession = true)]
         //public void UpdateAccount(string UserID, string UserPassword, string UserAdmin, string UserFirstName,  string UserLastName, string UserEmpID, string UserDepartment, string UserDirectReport)
@@ -146,6 +193,7 @@ namespace FeedbackWebApp
         [WebMethod(EnableSession = true)]        
         public void CreateAccount(string UserName, string UserPassword, string UserAdmin, string UserFirstName, string UserLastName, string UserDepartment)
         {
+            int accountID = -1;
             string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
             //the only thing fancy about this query is SELECT LAST_INSERT_ID() at the end.  All that
             //does is tell mySql server to return the primary key of the last inserted row.
@@ -174,17 +222,20 @@ namespace FeedbackWebApp
             //by closing the connection and moving on
             try
             {
-                int accountID = Convert.ToInt32(sqlCommand.ExecuteScalar());
+                accountID = Convert.ToInt32(sqlCommand.ExecuteScalar());
                 //here, you could use this accountID for additional queries regarding
                 //the requested account.  Really this is just an example to show you
                 //a query where you get the primary key of the inserted row back from
                 //the database!
+                                
             }
             catch (Exception e)
             {
-                throw e;
+                throw e;                
             }
             sqlConnection.Close();
+            //return accountID;
+
         }
 
         public double GetSentiment(string text, string sentimentType = "Compound")

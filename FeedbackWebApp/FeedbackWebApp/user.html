@@ -16,6 +16,14 @@
   <link href="./paper-dashboard.css?v=2.0.0" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="./demo.css" rel="stylesheet" />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>  
+
+  <script>
+      var webMethod = "AppServices.asmx/GetUserData";
+      //var paramets = "{\"
+  </script>
+
 </head>
 
 <body class="">
@@ -30,7 +38,7 @@
             <img src="./img/logo-small.png">
           </div>
         </a>
-        <a class="simple-text logo-normal">
+        <a class="simple-text logo-normal" id="user_title_fname">
           Shirley
           <!-- <div class="logo-image-big">
             <img src="../assets/img/logo-big.png">
@@ -104,10 +112,10 @@
                 <div class="author">
                   <a href="#">
                     <img class="avatar border-gray" src="./img/logo-small.png" alt="...">
-                    <h5 class="title">Shirley Chen</h5>
+                    <h5 class="title" id="user_title"></h5>
                   </a>
                   <p class="description">
-                    @shirleychen1234
+                    
                   </p>
                 </div>
               </div>
@@ -120,38 +128,38 @@
                 <ul class="list-unstyled team-members">
                   <li>
                     <div class="row">
-                      <div class="col-md-2 col-2">
+                      <!--<div class="col-md-2 col-2">
                         <div class="avatar">
                           <img src="./img/logo-small.png" alt="Circle Image" class="img-circle img-no-padding img-responsive">
                         </div>
                       </div>
                       <div class="col-md-7 col-7">
                         Jackson
-                      </div>
+                      </div>-->
                     </div>
                   </li>
                   <li>
                     <div class="row">
-                      <div class="col-md-2 col-2">
+                      <!--<div class="col-md-2 col-2">
                         <div class="avatar">
                           <img src="./img/logo-small.png" alt="Circle Image" class="img-circle img-no-padding img-responsive">
                         </div>
                       </div>
                       <div class="col-md-7 col-7">
                         Mike
-                      </div>
+                      </div>-->
                     </div>
                   </li>
                   <li>
                     <div class="row">
-                      <div class="col-md-2 col-2">
+                      <!--<div class="col-md-2 col-2">
                         <div class="avatar">
                           <img src="./img/logo-small.png" alt="Circle Image" class="img-circle img-no-padding img-responsive">
                         </div>
                       </div>
                       <div class="col-ms-7 col-7">
                         Andy
-                      </div>
+                      </div>-->
                     </div>
                   </li>
                 </ul>
@@ -180,8 +188,8 @@
                     </div>
                     <div class="col-md-4 pl-1">
                       <div class="form-group">
-                        <label for="exampleInputEmail1">Email address</label>
-                        <input type="email" class="form-control" placeholder="Email">
+                        <!--<label for="exampleInputEmail1">Email address</label>
+                        <input type="email" class="form-control" placeholder="Email">-->
                       </div>
                     </div>
                   </div>
