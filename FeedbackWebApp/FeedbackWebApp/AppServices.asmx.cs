@@ -32,7 +32,7 @@ namespace FeedbackWebApp
             string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
             //here's our query.  A basic select with nothing fancy.  Note the parameters that begin with @
             //NOTICE: we added admin to what we pull, so that we can store it along with the id in the session
-            string sqlSelect = "SELECT UserID FROM users WHERE UserFirstName=@idValue and UserPassword=@passValue";
+            string sqlSelect = "SELECT UserID, UserAdmin FROM users WHERE UserFirstName=@idValue and UserPassword=@passValue";
 
             //set up our connection object to be ready to use our connection string
             MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
@@ -59,7 +59,10 @@ namespace FeedbackWebApp
                 //if we found an account, store the id and admin status in the session
                 //so we can check those values later on other method calls to see if they 
                 //are 1) logged in at all, and 2) and admin or not
+                //Session["id"] = sqlDt.Rows[0]["UserID"];
                 Session["id"] = sqlDt.Rows[0]["UserID"];
+                Session["admin"] = sqlDt.Rows[0]["UserAdmin"];
+                success = true;
 
                 success = true;
             }
@@ -79,7 +82,7 @@ namespace FeedbackWebApp
         }
 
         [WebMethod(EnableSession = true)]
-        public User GetUser(string uid)
+        public User GetUser()
         {
             User user = new User();
             if (Session["id"] != null)
@@ -93,7 +96,7 @@ namespace FeedbackWebApp
                 MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
 
                 // Add the uid value that we get from the login page
-                sqlCommand.Parameters.AddWithValue("@uid", HttpUtility.UrlDecode(uid));
+                sqlCommand.Parameters.AddWithValue("@uid", HttpUtility.UrlDecode(Session["id"].ToString()));
 
                 MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
 
