@@ -324,7 +324,7 @@ namespace FeedbackWebApp
         //public void CreateAccount(string UserName, string UserPassword, string UserAdmin, string UserFirstName, string UserLastName, string UserEmpID, string UserDepartment, string UserDirectReport)
         // Receives an array of survey responses, then passes them individually to the Store Responses function to be stored in the database
         [WebMethod(EnableSession = true)]
-        public void SurveyResponse(string r1, string r2, string r3)
+        public void SurveyResponses(string r1, string r2, string r3)
         {
             string[] surveyResponses = new string[] { r1, r2, r3 };
             for(int i = 0; i < surveyResponses.Length; i++)
@@ -365,7 +365,7 @@ namespace FeedbackWebApp
             //by closing the connection and moving on
             try
             {
-                //accountID = Convert.ToInt32(sqlCommand.ExecuteScalar());
+                int accountID = Convert.ToInt32(sqlCommand.ExecuteScalar());
                 //here, you could use this accountID for additional queries regarding
                 //the requested account.  Really this is just an example to show you
                 //a query where you get the primary key of the inserted row back from

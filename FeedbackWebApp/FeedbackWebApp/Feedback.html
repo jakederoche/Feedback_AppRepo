@@ -2,20 +2,55 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>
-    Feedback Survey
-  </title>
-  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-  <!--     Fonts and icons     -->
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-  <!-- CSS Files -->
-  <link href="./bootstrap.min.css" rel="stylesheet" />
-  <link href="./paper-dashboard.css?v=2.0.0" rel="stylesheet" />
-  <!-- CSS Just for demo purpose, don't include it in your project -->
-  <link href="./demo.css" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>
+        Feedback Survey
+    </title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <!-- CSS Files -->
+    <link href="./bootstrap.min.css" rel="stylesheet" />
+    <link href="./paper-dashboard.css?v=2.0.0" rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="./demo.css" rel="stylesheet" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+
+
+        //passes account info to the server, to create an account request
+        function StoreResponses() {
+
+            r1 = document.getElementById("r1").value;
+            r2 = document.getElementById("r2").value;
+            r3 = document.getElementById("r3").value;
+
+            var webMethod = "AppServices.asmx/SurveyResponses";
+            var parameters = "{\"r1\":\"" + encodeURI(r1) + "\",\"r2\":\"" + encodeURI(r2) + "\",\"r3\":\"" + encodeURI(r3) + "\"}";
+
+            $.ajax({
+                type: "POST",
+                url: webMethod,
+                data: parameters,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    alert("Responses Sent");                    
+                },
+                error: function (e) {
+                    alert("Error sending responses");
+                }
+            });
+        }
+
+
+
+
+    </script>
 </head>
 
 	<body class="">
@@ -92,7 +127,7 @@
 						<h5 class="card-title">Survey</h5>
 					</div>
 					<div class="card-body">
-							<form action="Journal.html">
+							<form action="">
 								<!--<label for="">Rate your Employer: </label><br><br>
 								-Dissatisfied-
 									<input type="radio" name="rate" value="1">
@@ -101,15 +136,16 @@
 									<input type="radio" name="rate" value="4">
 									<input type="radio" name="rate" value="5">
 									-Satisfied-<br><br>-->
-										<label for="">Do you have all the tools you need to successfully do your job? What tools could you use?:</label><br><br>
-									<input type="text"><br><br>
-																							 <label for="">Looking back, what would you have done differently this week?:</label><br><br>
-									<input type="text"><br><br>
-																							 <label for="">Looking back, what would you have done again this week?:</label><br><br>
-									<input type="text"><br><br>
+									<label for="">Do you have all the tools you need to successfully do your job? What tools could you use?:</label><br><br>
+									<input type="text" id="r1"><br><br>
+                                    <label for="">Looking back, what would you have done differently this week?:</label><br><br>
+									
+                                    <input type="text" id="r2"><br><br>
+								    <label for="">Looking back, what would you have done again this week?:</label><br><br>
+									<input type="text" id="r3"><br><br>
 								<!--<label for="">What tasks would you like to take on to improve your work fulfillment?:</label><br><br>
 									<input type="text"><br><br>-->
-									<input type="submit" value="Submit">
+									<input type="button" value="Submit" onclick="StoreResponses()">
 							</form><br>
 					</div>
 				</div>
