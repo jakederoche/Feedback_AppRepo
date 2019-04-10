@@ -17,6 +17,8 @@
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="./demo.css" rel="stylesheet" />ct -->
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
     <script type="text/javascript">
 
   //      //when we retrieve accounts, we'll put them here
@@ -119,10 +121,11 @@
                 dataType: "json",
                 success: function (msg) {
 
+                    alert("Success")
                     // Store the msg into a user variable
                     dashboard = msg.d
 
-                    alert(msg.data);
+                    //alert("test");
 
                     //$("#user_title_fname").html(user.firstName);
                     //$("#user_title").html(user.firstName + " " + user.lastName);
@@ -132,7 +135,7 @@
                     //$("#user_dept").val(user.department);
 
 
-                    $("#totalemployees").val(dashboard.totalEmployees);
+                    $("#totalEmployees").html(dashboard.totalEmployees);
 
 
                     //alert("success");
@@ -243,7 +246,7 @@ Shirley
                     <div class="col-7 col-md-8">
                         <div class="numbers">
                             <p class="card-category">Total Responses</p>
-                            <p class="card-title">650</p>
+                            <p class="card-title" id="totalResponses">650</p>
                         </div>
                     </div>
                     </div>
@@ -262,7 +265,7 @@ Shirley
                         <div class="col-7 col-md-8">
                             <div class="numbers">
                                 <p class="card-category">Total Employees</p>
-                                <p class="card-title" id="totalemployees"></p>
+                                <p class="card-title" id="totalEmployees"></p>
                             </div>
                         </div>
                     </div>
@@ -308,9 +311,9 @@ Shirley
         <div class="row">
             <div class="credits ml-auto">
                 <span class="copyright">©
-                    <script>
+                    <!--<script>
                         document.write(new Date().getFullYear())
-                    </script>, Made by ScrumOfTheEarth
+                    </script>-->2019 , Made by ScrumOfTheEarth
                 </span>
             </div>
         </div>
