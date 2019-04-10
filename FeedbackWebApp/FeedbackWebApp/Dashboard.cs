@@ -7,10 +7,10 @@ namespace FeedbackWebApp
 {
     public class Dashboard
     {
-        public int id;
-        public string totalResponses;
-        public string totalEmployees;
-        public string responseRate;
+      
+        public int totalResponses;   
+        public string totalEmployees;  
+        public double responseRate;   
 
     }
 }

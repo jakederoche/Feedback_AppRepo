@@ -117,6 +117,72 @@ namespace FeedbackWebApp
             return user;
         }
 
+        //views: 
+        //UserCount --> NumUsers
+        //ResponseCount --> NumResponses
+
+
+
+        [WebMethod(EnableSession = true)]
+        public Dashboard GetDashValues()
+        {
+            Dashboard dashboard = new Dashboard();
+            if (Session["id"] != null)
+            {
+                DataTable sqlDt = new DataTable("dashboard");
+
+                string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
+                string sqlSelect1 = "select * from usercount";
+               // string sqlSelect2 = "select * from ResponseCount";
+
+
+                MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
+                MySqlCommand sqlCommand1 = new MySqlCommand(sqlSelect1, sqlConnection);
+               // MySqlCommand sqlCommand2 = new MySqlCommand(sqlSelect2, sqlConnection);
+
+                // Add the uid value that we get from the login page
+                //sqlCommand.Parameters.AddWithValue("@uid", HttpUtility.UrlDecode(Session["id"].ToString()));
+
+
+                
+
+                MySqlDataAdapter sqlDa1 = new MySqlDataAdapter(sqlCommand1);
+                //  MySqlDataAdapter sqlDa2 = new MySqlDataAdapter(sqlCommand2);
+
+
+                //  MySqlDataAdapter[] sqlDaArr = new MySqlDataAdapter[] { sqlDa1, sqlDa2 };
+
+
+                //foreach(var sqlDa in sqlDaArr)
+                //{
+                //    sqlDa.Fill(sqlDt);
+                //    sqlDa.
+                //}
+
+                sqlDa1.Fill(sqlDt);
+
+
+
+                if (sqlDt.Rows.Count == 1)
+                {
+                    //dashboard.totalResponses = ;// Dt Containtingc  total responses
+                    //dashboard.totalEmployees = ;// Dt Containtingc  total employees
+                    //dashboard.responseRate = dashboard.totalResponses / dashboard.totalEmployees;
+                    //user.userName = sqlDt.Rows[0]["UserName"].ToString();
+                    //user.firstName = sqlDt.Rows[0]["UserFirstName"].ToString();
+                    //user.lastName = sqlDt.Rows[0]["UserLastName"].ToString();
+                    //user.admin = sqlDt.Rows[0]["UserAdmin"].ToString();
+                    //user.department = sqlDt.Rows[0]["UserDepartment"].ToString();
+
+
+                    dashboard.totalEmployees = sqlDt.Rows[0]["NumUsers"].ToString();
+                }
+
+            }
+
+            return dashboard;
+        }
+
         ////EXAMPLE OF AN UPDATE QUERY WITH PARAMS PASSED IN
         //[WebMethod(EnableSession = true)]
         //public void UpdateAccount(string UserID, string UserPassword, string UserAdmin, string UserFirstName,  string UserLastName, string UserEmpID, string UserDepartment, string UserDirectReport)
@@ -258,67 +324,67 @@ namespace FeedbackWebApp
 
         }
 
-        //EXAMPLE OF A SELECT, AND RETURNING "COMPLEX" DATA TYPES
-        [WebMethod(EnableSession = true)]
-        public Dashboard[] GetData()
-        {
-            //check out the return type.  It's an array of Account objects.  You can look at our custom Account class in this solution to see that it's 
-            //just a container for public class-level variables.  It's a simple container that asp.net will have no trouble converting into json.  When we return
-            //sets of information, it's a good idea to create a custom container class to represent instances (or rows) of that information, and then return an array of those objects.  
-            //Keeps everything simple.
+        ////EXAMPLE OF A SELECT, AND RETURNING "COMPLEX" DATA TYPES
+        //[WebMethod(EnableSession = true)]
+        //public Dashboard[] GetData()
+        //{
+        //    //check out the return type.  It's an array of Account objects.  You can look at our custom Account class in this solution to see that it's 
+        //    //just a container for public class-level variables.  It's a simple container that asp.net will have no trouble converting into json.  When we return
+        //    //sets of information, it's a good idea to create a custom container class to represent instances (or rows) of that information, and then return an array of those objects.  
+        //    //Keeps everything simple.
 
-            //WE ONLY SHARE ACCOUNTS WITH LOGGED IN USERS!
-             if (Session["id"] != null)
-            {
-                DataTable sqlDt = new DataTable("dashboard");
+        //    //WE ONLY SHARE ACCOUNTS WITH LOGGED IN USERS!
+        //     if (Session["id"] != null)
+        //    {
+        //        DataTable sqlDt = new DataTable("dashboard");
 
-                string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
-                string sqlSelect = "select totalResponses, totalEmployees, responseRate from dashboard_view where active=1";
+        //        string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
+        //        string sqlSelect = "select totalResponses, totalEmployees, responseRate from dashboard_view where active=1";
 
-                MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
-                MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+        //        MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
+        //        MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
 
-                //gonna use this to fill a data table
-                MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
-                //filling the data table
-                sqlDa.Fill(sqlDt);
+        //        //gonna use this to fill a data table
+        //        MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
+        //        //filling the data table
+        //        sqlDa.Fill(sqlDt);
 
-                //loop through each row in the dataset, creating instances
-                //of our container class Account.  Fill each acciount with
-                //data from the rows, then dump them in a list.
-                List<Dashboard> dashboard = new List<Dashboard>();
-                for (int i = 0; i < sqlDt.Rows.Count; i++)
-                {
-                    //only share user id and pass info with admins!
-                    if (Convert.ToInt32(Session["admin"]) == 1)
-                    {
-                        dashboard.Add(new Dashboard
-                        {
+        //        //loop through each row in the dataset, creating instances
+        //        //of our container class Account.  Fill each acciount with
+        //        //data from the rows, then dump them in a list.
+        //        List<Dashboard> dashboard = new List<Dashboard>();
+        //        for (int i = 0; i < sqlDt.Rows.Count; i++)
+        //        {
+        //            //only share user id and pass info with admins!
+        //            if (Convert.ToInt32(Session["admin"]) == 1)
+        //            {
+        //                dashboard.Add(new Dashboard
+        //                {
 
-                            totalResponses = sqlDt.Rows[i]["totalResponses"].ToString(),
-                            totalEmployees = sqlDt.Rows[i]["totalEmployees"].ToString(),
-                            responseRate = sqlDt.Rows[i]["responseRate"].ToString(),
-                        });
-                    }
-                    else
-                    {
-                        dashboard.Add(new Dashboard
-                        {
-                            totalResponses = sqlDt.Rows[i]["totalResponses"].ToString(),
-                            totalEmployees = sqlDt.Rows[i]["totalEmployees"].ToString(),
-                            responseRate = sqlDt.Rows[i]["responseRate"].ToString(),
-                        });
-                    }
-                }
-                //convert the list of accounts to an array and return!
-                return dashboard.ToArray();
-            }
-            else
-            {
-                //if they're not logged in, return an empty array
-                return new Dashboard[0];
-            }
-        }
+        //                    totalResponses = sqlDt.Rows[i]["totalResponses"].ToString(),
+        //                    totalEmployees = sqlDt.Rows[i]["totalEmployees"].ToString(),
+        //                    responseRate = sqlDt.Rows[i]["responseRate"].ToString(),
+        //                });
+        //            }
+        //            else
+        //            {
+        //                dashboard.Add(new Dashboard
+        //                {
+        //                    totalResponses = sqlDt.Rows[i]["totalResponses"].ToString(),
+        //                    totalEmployees = sqlDt.Rows[i]["totalEmployees"].ToString(),
+        //                    responseRate = sqlDt.Rows[i]["responseRate"].ToString(),
+        //                });
+        //            }
+        //        }
+        //        //convert the list of accounts to an array and return!
+        //        return dashboard.ToArray();
+        //    }
+        //    else
+        //    {
+        //        //if they're not logged in, return an empty array
+        //        return new Dashboard[0];
+        //    }
+        //}
 
         //EXAMPLE OF AN INSERT QUERY WITH PARAMS PASSED IN.  BONUS GETTING THE INSERTED ID FROM THE DB!
         //public void CreateAccount(string UserName, string UserPassword, string UserAdmin, string UserFirstName, string UserLastName, string UserEmpID, string UserDepartment, string UserDirectReport)
