@@ -9,7 +9,7 @@ namespace FeedbackWebApp
     {
       
         public int totalResponses;   
-        public string totalEmployees;  
+        public int totalEmployees;  
         public double responseRate;   
 
     }

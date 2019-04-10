@@ -175,7 +175,7 @@ namespace FeedbackWebApp
                     //user.department = sqlDt.Rows[0]["UserDepartment"].ToString();
 
 
-                    dashboard.totalEmployees = sqlDt.Rows[0]["NumUsers"].ToString();
+                    dashboard.totalEmployees = Convert.ToInt32(sqlDt.Rows[0]["NumUsers"]);
                 }
 
             }
