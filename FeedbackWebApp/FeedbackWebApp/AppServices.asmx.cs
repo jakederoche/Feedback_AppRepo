@@ -132,7 +132,7 @@ namespace FeedbackWebApp
                 DataTable sqlDt = new DataTable("dashboard");
 
                 string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
-                string sqlSelect1 = "select * from usercount";
+                string sqlSelect1 = "select * from UserCount";
                // string sqlSelect2 = "select * from ResponseCount";
 
 
