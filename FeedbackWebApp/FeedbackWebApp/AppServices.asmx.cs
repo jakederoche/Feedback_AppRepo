@@ -180,6 +180,113 @@ namespace FeedbackWebApp
             return dashboard;
         }
 
+
+        [WebMethod(EnableSession = true)]
+        public Dashboard GetDashValues2()
+        {
+            Dashboard dashboard = new Dashboard();
+            if (Session["id"] != null)
+            {
+                DataTable sqlDt = new DataTable("dashboard");
+
+                string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
+                
+                string sqlSelect1 = "select * from ResponseCount";
+
+
+                MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
+                MySqlCommand sqlCommand1 = new MySqlCommand(sqlSelect1, sqlConnection);
+                // MySqlCommand sqlCommand2 = new MySqlCommand(sqlSelect2, sqlConnection);
+
+                // Add the uid value that we get from the login page
+                //sqlCommand.Parameters.AddWithValue("@uid", HttpUtility.UrlDecode(Session["id"].ToString()));
+
+
+
+
+                MySqlDataAdapter sqlDa1 = new MySqlDataAdapter(sqlCommand1);
+                //  MySqlDataAdapter sqlDa2 = new MySqlDataAdapter(sqlCommand2);
+
+
+                //  MySqlDataAdapter[] sqlDaArr = new MySqlDataAdapter[] { sqlDa1, sqlDa2 };
+
+
+                //foreach(var sqlDa in sqlDaArr)
+                //{
+                //    sqlDa.Fill(sqlDt);
+                //    sqlDa.
+                //}
+
+                sqlDa1.Fill(sqlDt);
+
+
+
+                if (sqlDt.Rows.Count == 1)
+                {
+                  
+
+                    dashboard.totalResponses = Convert.ToInt32(sqlDt.Rows[0]["NumResponses"]);
+                }
+
+            }
+
+            return dashboard;
+        }
+
+
+        [WebMethod(EnableSession = true)]
+        public Dashboard GetDashValues3()
+        {
+            Dashboard dashboard = new Dashboard();
+            if (Session["id"] != null)
+            {
+                DataTable sqlDt = new DataTable("dashboard");
+
+                string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
+                string sqlSelect1 = "select * from responserate";
+                // string sqlSelect2 = "select * from ResponseCount";
+
+
+                MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
+                MySqlCommand sqlCommand1 = new MySqlCommand(sqlSelect1, sqlConnection);
+                // MySqlCommand sqlCommand2 = new MySqlCommand(sqlSelect2, sqlConnection);
+
+                // Add the uid value that we get from the login page
+                //sqlCommand.Parameters.AddWithValue("@uid", HttpUtility.UrlDecode(Session["id"].ToString()));
+
+
+
+
+                MySqlDataAdapter sqlDa1 = new MySqlDataAdapter(sqlCommand1);
+                //  MySqlDataAdapter sqlDa2 = new MySqlDataAdapter(sqlCommand2);
+
+
+                //  MySqlDataAdapter[] sqlDaArr = new MySqlDataAdapter[] { sqlDa1, sqlDa2 };
+
+
+                //foreach(var sqlDa in sqlDaArr)
+                //{
+                //    sqlDa.Fill(sqlDt);
+                //    sqlDa.
+                //}
+
+                sqlDa1.Fill(sqlDt);
+
+
+
+                if (sqlDt.Rows.Count == 1)
+                {
+                 
+
+
+                    dashboard.responseRate = Convert.ToDouble(sqlDt.Rows[0]["numresponses / numusers"]);
+                }
+
+            }
+
+            return dashboard;
+        }
+
         ////EXAMPLE OF AN UPDATE QUERY WITH PARAMS PASSED IN
         //[WebMethod(EnableSession = true)]
         //public void UpdateAccount(string UserID, string UserPassword, string UserAdmin, string UserFirstName,  string UserLastName, string UserEmpID, string UserDepartment, string UserDirectReport)

@@ -121,7 +121,7 @@
                 dataType: "json",
                 success: function (msg) {
 
-                    alert("Success")
+                    //alert("Success")
                     // Store the msg into a user variable
                     dashboard = msg.d
 
@@ -143,7 +143,66 @@
 
                 },
                 error: function (e) {
-                    alert("Error with loading dashboard values");
+                    alert("Error with loading user values");
+                }
+            });
+
+        }
+
+        function GetDashValues2() {
+            var webMethod = "AppServices.asmx/GetDashValues2";
+
+            $.ajax({
+                type: "POST",
+                url: webMethod,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+
+                    //alert("Success")
+                    // Store the msg into a user variable
+                    dashboard = msg.d
+
+                 
+
+
+                    $("#totalResponses").html(dashboard.totalResponses);
+
+
+                
+
+                },
+                error: function (e) {
+                    alert("Error with loading response values");
+                }
+            });
+
+        }
+
+        function GetDashValues3() {
+            var webMethod = "AppServices.asmx/GetDashValues3";
+
+            $.ajax({
+                type: "POST",
+                url: webMethod,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+
+                    
+                    dashboard = msg.d
+
+
+
+
+                    $("#responseRate").html(dashboard.responseRate);
+
+
+
+
+                },
+                error: function (e) {
+                    alert("Error with loading response rate values");
                 }
             });
 
@@ -156,7 +215,7 @@
 
 </head>
 
-<body class="" onload="GetDashValues()">
+<body class="" onload="GetDashValues(), GetDashValues2(), GetDashValues3()">
 <div class="wrapper ">
 <div class="sidebar" data-color="white" data-active-color="danger">
 <!--
@@ -246,7 +305,7 @@ Shirley
                     <div class="col-7 col-md-8">
                         <div class="numbers">
                             <p class="card-category">Total Responses</p>
-                            <p class="card-title" id="totalResponses">650</p>
+                            <p class="card-title" id="totalResponses"></p>
                         </div>
                     </div>
                     </div>
@@ -284,7 +343,7 @@ Shirley
                         <div class="col-7 col-md-8">
                             <div class="numbers">
                                 <p class="card-category">Response Rate</p>
-                                <p class="card-title">65%</p>
+                                <p class="card-title" id="responseRate"></p>
                             </div>
                         </div>
                     </div>
