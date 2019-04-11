@@ -296,10 +296,45 @@ Shirley
                 <div class="card ">
                     <div class="card-header ">
                         <h5 class="card-title">Responses</h5>
-                            <p class="card-category">Performance per month</p>
+                            <p class="card-category">Sentiment Analysis</p>
                     </div>
                     <div class="card-body ">
-                        <canvas id="chartHours" width="1100" height="400"></canvas>
+                        <canvas width="1100" height="2"></canvas>
+                        <head>
+                            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                            <script type="text/javascript">
+                              google.charts.load('current', {'packages':['bar']});
+                              google.charts.setOnLoadCallback(drawStuff);
+                        
+                              function drawStuff() {
+                                var data = new google.visualization.arrayToDataTable([
+                                  ["Questions", 'Sentiment', { role: 'style' } ],
+                                  ["Question 1", 0.875, 'color: gray'],
+                                  ["Question 2", 1, 'color: #76A7FA'],
+                                  ["Question 3", -0.5, 'color: #703593'],
+                                ]);
+                        
+                                var options = {
+                                  width: 1100,
+                                  height: 400,
+                                  legend: { position: 'none' },
+                                  axes: {
+                                    x: {
+                                      0: { side: 'top', label: 'Questions'} // Top x-axis.
+                                    }
+                                  },
+                                  bar: { groupWidth: "50%" }
+                                };
+                        
+                                var chart = new google.charts.Bar(document.getElementById('top_x_div'));
+                                // Convert the Classic options to Material options.
+                                chart.draw(data, google.charts.Bar.convertOptions(options));
+                              };
+                            </script>
+                          </head>
+                          <body>
+                            <div id="top_x_div" style="width: 800px; height: 600px;"></div>
+                          </body>
                     </div>  
                 </div>
             </div>  
@@ -321,24 +356,6 @@ Shirley
 </footer>
 </div>
 </div>
-
-  <!--   Core JS Files   -->
-  <script src="./js/jquery.min.js"></script>
-  <script src="./js/popper.min.js"></script>
-  <script src="./js/bootstrap.min.js"></script>
-  <script src="./js/perfect-scrollbar.jquery.min.js"></script>
-  <!-- Chart JS -->
-  <script src="./js/chartjs.min.js"></script>
-  <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="./js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script>
-  <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
-  <script src="./js/demo.js"></script>
-  <script>
-    $(document).ready(function() {
-      // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
-      demo.initChartsPages();
-    });
-  </script>
 
     </body>
 </html>
