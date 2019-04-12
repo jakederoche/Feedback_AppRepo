@@ -18,98 +18,105 @@
     <link href="./demo.css" rel="stylesheet" />ct -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="GetUser.js"></script>
+
+    <style>
+        .admin_item {
+            display: none;
+        }
+    </style>
 
     <script type="text/javascript">
 
-  //      //when we retrieve accounts, we'll put them here
-  //      //so that we can reference them later for admins
-  //      //that may want to edit accounts
-  //      var dashboardArray;
-  //      //to begin with, we assume that the account is not an admin
-  //      var admin = false;
+        //      //when we retrieve accounts, we'll put them here
+        //      //so that we can reference them later for admins
+        //      //that may want to edit accounts
+        //      var dashboardArray;
+        //      //to begin with, we assume that the account is not an admin
+        //      var admin = false;
 
-  //      //this function grabs accounts and loads our account window
-  //      function LoadData() {
-  //          var webMethod = "AccountServices.asmx/GetData";
-  //          $.ajax({
-  //              type: "POST",
-  //              url: webMethod,
-  //              contentType: "application/json; charset=utf-8",
-  //              dataType: "json",
-  //              success: function (msg) {
-  //                  if (msg.d.length > 0) {
-  //                      //let's put our accounts that we get from the
-  //                      //server into our accountsArray variable
-  //                      //so we can use them in other functions as well
-  //                      dashboardArray = msg.d;
-  //                      //this clears out the div that will hold our account info
-  //                      $("#numbers").empty();
-  //                      //again, we assume we're not an admin unless we see data from the server
-  //                      //that we know only admins can see
-  //                      admin = false;
-  //                      for (var i = 0; i < dashboardArray.length; i++) {
-  //                          //we grab on to a specific html element in jQuery
-  //                          //by using a  # followed by that element's id.
-  //                          var dash;
-  //                          //if they have access to admin-level info (like userid and password) then
-  //                          //create output that has an edit option
-  //                          if (dashboardArray[i].userId != null) {
-  //                              dash = "<div class='card-category' totalResponses='acct" + dashboardArray[i].totalResponses + "'>" +
-  //                                  "<a class='card-title' href='mailto:" + dashboardArray[i].totalEmployees + "'>" +
-  //                                  dashboardArray[i].responseRate + " " + 
-  //                                  "</a> <a href='#' onclick='LoadAccount(" + dashboardArray[i].id + ")' class='optionsTag'>edit</a></div><hr>"
-  //                              admin = true;
-  //                          }
-  //                          //if not, then they're not an admin so don't include the edit option
-  //                          else {
-  //                              dash = "<div class='card-category' totalResponses='acct" + dashboardArray[i].totalResponses + "'>" +
-  //                                  "<a class='card-title' href='mailto:" + dashboardArray[i].totalEmployees + "'>" +
-  //                                  dashboardArray[i].responseRate + " " +
-  //                                  "</a></div><hr>"
-                                  
-  //                          }
-  //                          $("#numbers").append(
-  //                              //anything we throw at our panel in the form of text
-  //                              //will be added to the contents of that panel.  Here
-  //                              //we're putting together a div that holds info on the
-  //                              //account as well as an edit link if the user is an admin
-  //                              dash
-  //                          );
-  //                      }
-  //                  }
-  //                  //we're showing the account window, so let's track that...
-  //                  //accountWindowShowing = true;
-  //                  //...because the ShowMenu function behaves differently depending on
-  //                  //if the account window is showing or not
-  //                  //ShowMenu();
-  //              },
-  //              error: function (e) {
-  //                  alert("boo...");
-  //              }
-  //          });
-  //      }
+        //      //this function grabs accounts and loads our account window
+        //      function LoadData() {
+        //          var webMethod = "AccountServices.asmx/GetData";
+        //          $.ajax({
+        //              type: "POST",
+        //              url: webMethod,
+        //              contentType: "application/json; charset=utf-8",
+        //              dataType: "json",
+        //              success: function (msg) {
+        //                  if (msg.d.length > 0) {
+        //                      //let's put our accounts that we get from the
+        //                      //server into our accountsArray variable
+        //                      //so we can use them in other functions as well
+        //                      dashboardArray = msg.d;
+        //                      //this clears out the div that will hold our account info
+        //                      $("#numbers").empty();
+        //                      //again, we assume we're not an admin unless we see data from the server
+        //                      //that we know only admins can see
+        //                      admin = false;
+        //                      for (var i = 0; i < dashboardArray.length; i++) {
+        //                          //we grab on to a specific html element in jQuery
+        //                          //by using a  # followed by that element's id.
+        //                          var dash;
+        //                          //if they have access to admin-level info (like userid and password) then
+        //                          //create output that has an edit option
+        //                          if (dashboardArray[i].userId != null) {
+        //                              dash = "<div class='card-category' totalResponses='acct" + dashboardArray[i].totalResponses + "'>" +
+        //                                  "<a class='card-title' href='mailto:" + dashboardArray[i].totalEmployees + "'>" +
+        //                                  dashboardArray[i].responseRate + " " +
+        //                                  "</a> <a href='#' onclick='LoadAccount(" + dashboardArray[i].id + ")' class='optionsTag'>edit</a></div><hr>"
+        //                              admin = true;
+        //                          }
+        //                          //if not, then they're not an admin so don't include the edit option
+        //                          else {
+        //                              dash = "<div class='card-category' totalResponses='acct" + dashboardArray[i].totalResponses + "'>" +
+        //                                  "<a class='card-title' href='mailto:" + dashboardArray[i].totalEmployees + "'>" +
+        //                                  dashboardArray[i].responseRate + " " +
+        //                                  "</a></div><hr>"
 
-  //      //hold on to the account being currently edited here
-		//var current;
-		////load up an account for editing
-		//function LoadAccount(id) {
-		//	//showPanel('editAccountPanel');
-		//	current = null;
-		//	//find the account with a matching id in our array
-		//	for (var i = 0; i < dashboardArray.length; i++) {
-		//		if (dashboardArray[i].id == id) {
-		//			current = dashboardArray[i]
-		//		}
-		//	}
-		//	//set up our inputs
-		//	if (currentt != null) {
-		//		$('#editLogonId').val(current.id);
-  //              $('#editTotalResponses').val(current.totalResponses);
-  //              $('#editTotalEmployees').val(current.totalEmployees);
-  //              $('#editResponseRate').val(current.responseRate);
-				
-		//	}
-  //      }
+        //                          }
+        //                          $("#numbers").append(
+        //                              //anything we throw at our panel in the form of text
+        //                              //will be added to the contents of that panel.  Here
+        //                              //we're putting together a div that holds info on the
+        //                              //account as well as an edit link if the user is an admin
+        //                              dash
+        //                          );
+        //                      }
+        //                  }
+        //                  //we're showing the account window, so let's track that...
+        //                  //accountWindowShowing = true;
+        //                  //...because the ShowMenu function behaves differently depending on
+        //                  //if the account window is showing or not
+        //                  //ShowMenu();
+        //              },
+        //              error: function (e) {
+        //                  alert("boo...");
+        //              }
+        //          });
+        //      }
+
+        //      //hold on to the account being currently edited here
+        //var current;
+        ////load up an account for editing
+        //function LoadAccount(id) {
+        //	//showPanel('editAccountPanel');
+        //	current = null;
+        //	//find the account with a matching id in our array
+        //	for (var i = 0; i < dashboardArray.length; i++) {
+        //		if (dashboardArray[i].id == id) {
+        //			current = dashboardArray[i]
+        //		}
+        //	}
+        //	//set up our inputs
+        //	if (currentt != null) {
+        //		$('#editLogonId').val(current.id);
+        //              $('#editTotalResponses').val(current.totalResponses);
+        //              $('#editTotalEmployees').val(current.totalEmployees);
+        //              $('#editResponseRate').val(current.responseRate);
+
+        //	}
+        //      }
 
         function GetDashValues() {
             var webMethod = "AppServices.asmx/GetDashValues";
@@ -163,13 +170,13 @@
                     // Store the msg into a user variable
                     dashboard = msg.d
 
-                 
+
 
 
                     $("#totalResponses").html(dashboard.totalResponses);
 
 
-                
+
 
                 },
                 error: function (e) {
@@ -189,7 +196,7 @@
                 dataType: "json",
                 success: function (msg) {
 
-                    
+
                     dashboard = msg.d
 
 
@@ -215,7 +222,7 @@
 
 </head>
 
-<body class="" onload="GetDashValues(), GetDashValues2(), GetDashValues3()">
+<body class="" onload="GetDashValues(), GetDashValues2(), GetDashValues3(), GetUserData()">
 <div class="wrapper ">
 <div class="sidebar" data-color="white" data-active-color="danger">
 <!--
@@ -242,13 +249,13 @@ Shirley
             <p>User Profile</p>
         </a>
     </li>
-    <li class="active ">
+    <li class="admin_item">
         <a href="./dashboard.html">
             <i class="nc-icon nc-bank"></i>
             <p>Dashboard</p>
         </a>
     </li>
-    <li>
+    <li class="admin_item">
         <a href="./tables.html">
             <i class="nc-icon nc-tile-56"></i>
             <p>Table List</p>
@@ -379,10 +386,10 @@ Shirley
                                   legend: { position: 'none' },
                                   axes: {
                                     x: {
-                                      0: { side: 'top', label: 'Questions'} // Top x-axis.
+                                      0: { side: 'bottom', label: 'Questions'} // Top x-axis.
                                     }
                                   },
-                                  bar: { groupWidth: "50%" }
+                                  bar: { groupWidth: "80%" }
                                 };
                         
                                 var chart = new google.charts.Bar(document.getElementById('top_x_div'));

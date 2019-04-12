@@ -95,7 +95,7 @@
     <Content Include="demo.js" />
     <Content Include="Feedback.css" />
     <Content Include="Feedback.html" />
-    <Content Include="Feedback.js" />
+    <Content Include="GetUser.js" />
     <Content Include="Global.asax" />
     <Content Include="Journal.html" />
     <Content Include="Login.html" />

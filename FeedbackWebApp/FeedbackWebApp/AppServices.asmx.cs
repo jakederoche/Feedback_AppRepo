@@ -29,7 +29,7 @@ namespace FeedbackWebApp
             string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
             //here's our query.  A basic select with nothing fancy.  Note the parameters that begin with @
             //NOTICE: we added admin to what we pull, so that we can store it along with the id in the session
-            string sqlSelect = "SELECT UserID, UserAdmin FROM users WHERE UserFirstName=@idValue and UserPassword=@passValue";
+            string sqlSelect = "SELECT UserID, UserAdmin FROM users WHERE UserName=@idValue and UserPassword=@passValue";
 
             //set up our connection object to be ready to use our connection string
             MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
