@@ -123,57 +123,88 @@ namespace FeedbackWebApp
         [WebMethod(EnableSession = true)]
         public Dashboard GetDashValues()
         {
+           
             Dashboard dashboard = new Dashboard();
             if (Session["id"] != null)
             {
-                DataTable sqlDt = new DataTable("dashboard");
+                DataTable sqlDt1 = new DataTable("dashboard");
+                DataTable sqlDt2 = new DataTable("dashboard");
+                //DataRow sqlDr = new DataRow("dashboard");
 
                 string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
                 string sqlSelect1 = "select * from UserCount";
-               // string sqlSelect2 = "select * from ResponseCount";
+                string sqlSelect2 = "select * from ResponseCount";
 
 
                 MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
                 MySqlCommand sqlCommand1 = new MySqlCommand(sqlSelect1, sqlConnection);
-               // MySqlCommand sqlCommand2 = new MySqlCommand(sqlSelect2, sqlConnection);
+                MySqlCommand sqlCommand2 = new MySqlCommand(sqlSelect2, sqlConnection);
+                //MySqlCommand sqlCommand3 = new MySqlCommand(sqlSelect2, sqlConnection);
 
                 // Add the uid value that we get from the login page
                 //sqlCommand.Parameters.AddWithValue("@uid", HttpUtility.UrlDecode(Session["id"].ToString()));
 
 
-                
+
 
                 MySqlDataAdapter sqlDa1 = new MySqlDataAdapter(sqlCommand1);
-                //  MySqlDataAdapter sqlDa2 = new MySqlDataAdapter(sqlCommand2);
+                MySqlDataAdapter sqlDa2 = new MySqlDataAdapter(sqlCommand2);
+                //                MySqlDataAdapter sqlDa3 = new MySqlDataAdapter(sqlCommand3);
 
 
-                //  MySqlDataAdapter[] sqlDaArr = new MySqlDataAdapter[] { sqlDa1, sqlDa2 };
+                //              MySqlDataAdapter[] sqlDaArr = new MySqlDataAdapter[] { sqlDa1, sqlDa2, sqlDa3 };
 
 
-                //foreach(var sqlDa in sqlDaArr)
+
+
+                //foreach (MySqlDataAdapter sqlDa in sqlDaArr)
                 //{
-                //    sqlDa.Fill(sqlDt);
-                //    sqlDa.
+                //    sqlDt.NewRow();
+                //    sqlDt.Rows.Add(sqlDa);
                 //}
 
-                sqlDa1.Fill(sqlDt);
-
-
-
-                if (sqlDt.Rows.Count == 1)
+                sqlConnection.Open();
+                //we're using a try/catch so that if the query errors out we can handle it gracefully
+                //by closing the connection and moving on
+                try
                 {
-                    //dashboard.totalResponses = ;// Dt Containtingc  total responses
-                    //dashboard.totalEmployees = ;// Dt Containtingc  total employees
-                    //dashboard.responseRate = dashboard.totalResponses / dashboard.totalEmployees;
-                    //user.userName = sqlDt.Rows[0]["UserName"].ToString();
-                    //user.firstName = sqlDt.Rows[0]["UserFirstName"].ToString();
-                    //user.lastName = sqlDt.Rows[0]["UserLastName"].ToString();
-                    //user.admin = sqlDt.Rows[0]["UserAdmin"].ToString();
-                    //user.department = sqlDt.Rows[0]["UserDepartment"].ToString();
+                    // Execute both sqlStatements and store each to the dashboard object
+                    dashboard.totalEmployees = Convert.ToInt32(sqlCommand1.ExecuteScalar());
+                    dashboard.totalResponses = Convert.ToInt32(sqlCommand2.ExecuteScalar());
 
 
-                    dashboard.totalEmployees = Convert.ToInt32(sqlDt.Rows[0]["NumUsers"]);
+                    dashboard.responseRate = Convert.ToDouble(dashboard.totalResponses) / Convert.ToDouble(dashboard.totalEmployees);
+                    dashboard.responseRate *= 100;
+
+
                 }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+                sqlConnection.Close();
+
+                //sqlDt1.RemotingFormat
+
+                //sqlDa1.Fill(sqlDt1);
+                //sqlDa2.Fill(sqlDt2);
+                
+                
+
+                //if (sqlDt.Rows.Count == 1)
+                //{
+                //    //dashboard.totalResponses = ;// Dt Containtingc  total responses
+                //    //dashboard.totalEmployees = ;// Dt Containtingc  total employees
+                //    //dashboard.responseRate = dashboard.totalResponses / dashboard.totalEmployees;
+                //    //user.userName = sqlDt.Rows[0]["UserName"].ToString();
+                //    //user.firstName = sqlDt.Rows[0]["UserFirstName"].ToString();
+                //    //user.lastName = sqlDt.Rows[0]["UserLastName"].ToString();
+                //    //user.admin = sqlDt.Rows[0]["UserAdmin"].ToString();
+                //    //user.department = sqlDt.Rows[0]["UserDepartment"].ToString();
+
+
+                //    dashboard.totalEmployees = Convert.ToInt32(sqlDt.Rows[0]["NumUsers"]);
+                //}
 
             }
 
