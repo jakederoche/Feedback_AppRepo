@@ -10,7 +10,9 @@ namespace FeedbackWebApp
       
         public int totalResponses;   
         public int totalEmployees;  
-        public double responseRate;   
-
+        public double responseRate;
+        public double q1Sentiment;
+        public double q2Sentiment;
+        public double q3Sentiment;
     }
 }
