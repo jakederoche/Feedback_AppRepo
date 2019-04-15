@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Web;
 using System.Web.Services;
@@ -29,7 +30,7 @@ namespace FeedbackWebApp
             string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
             //here's our query.  A basic select with nothing fancy.  Note the parameters that begin with @
             //NOTICE: we added admin to what we pull, so that we can store it along with the id in the session
-            string sqlSelect = "SELECT UserID, UserAdmin FROM users WHERE UserFirstName=@idValue and UserPassword=@passValue";
+            string sqlSelect = "SELECT UserID, UserAdmin FROM users WHERE UserName=@idValue and UserPassword=@passValue";
 
             //set up our connection object to be ready to use our connection string
             MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
@@ -123,170 +124,61 @@ namespace FeedbackWebApp
         [WebMethod(EnableSession = true)]
         public Dashboard GetDashValues()
         {
+           
             Dashboard dashboard = new Dashboard();
             if (Session["id"] != null)
             {
                 DataTable sqlDt = new DataTable("dashboard");
+                
+                //DataRow sqlDr = new DataRow("dashboard");
 
                 string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
                 string sqlSelect1 = "select * from UserCount";
-               // string sqlSelect2 = "select * from ResponseCount";
+                string sqlSelect2 = "select * from ResponseCount";
+                string sqlSelect3 = "select * from avesentimentq";
 
 
                 MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
                 MySqlCommand sqlCommand1 = new MySqlCommand(sqlSelect1, sqlConnection);
-               // MySqlCommand sqlCommand2 = new MySqlCommand(sqlSelect2, sqlConnection);
+                MySqlCommand sqlCommand2 = new MySqlCommand(sqlSelect2, sqlConnection);
+                MySqlCommand sqlCommand3 = new MySqlCommand(sqlSelect3, sqlConnection);
 
                 // Add the uid value that we get from the login page
                 //sqlCommand.Parameters.AddWithValue("@uid", HttpUtility.UrlDecode(Session["id"].ToString()));
 
-
-                
-
                 MySqlDataAdapter sqlDa1 = new MySqlDataAdapter(sqlCommand1);
-                //  MySqlDataAdapter sqlDa2 = new MySqlDataAdapter(sqlCommand2);
+                MySqlDataAdapter sqlDa2 = new MySqlDataAdapter(sqlCommand2);
+                MySqlDataAdapter sqlDa3 = new MySqlDataAdapter(sqlCommand3);
+
+                sqlDa3.Fill(sqlDt);
 
 
-                //  MySqlDataAdapter[] sqlDaArr = new MySqlDataAdapter[] { sqlDa1, sqlDa2 };
-
-
-                //foreach(var sqlDa in sqlDaArr)
-                //{
-                //    sqlDa.Fill(sqlDt);
-                //    sqlDa.
-                //}
-
-                sqlDa1.Fill(sqlDt);
-
-
-
-                if (sqlDt.Rows.Count == 1)
+                sqlConnection.Open();
+                //we're using a try/catch so that if the query errors out we can handle it gracefully
+                //by closing the connection and moving on
+                try
                 {
-                    //dashboard.totalResponses = ;// Dt Containtingc  total responses
-                    //dashboard.totalEmployees = ;// Dt Containtingc  total employees
-                    //dashboard.responseRate = dashboard.totalResponses / dashboard.totalEmployees;
-                    //user.userName = sqlDt.Rows[0]["UserName"].ToString();
-                    //user.firstName = sqlDt.Rows[0]["UserFirstName"].ToString();
-                    //user.lastName = sqlDt.Rows[0]["UserLastName"].ToString();
-                    //user.admin = sqlDt.Rows[0]["UserAdmin"].ToString();
-                    //user.department = sqlDt.Rows[0]["UserDepartment"].ToString();
-
-
-                    dashboard.totalEmployees = Convert.ToInt32(sqlDt.Rows[0]["NumUsers"]);
+                    // Execute both sqlStatements and store each to the dashboard object
+                    dashboard.totalEmployees = Convert.ToInt32(sqlCommand1.ExecuteScalar());
+                    dashboard.totalResponses = Convert.ToInt32(sqlCommand2.ExecuteScalar());
+                    dashboard.responseRate = Convert.ToDouble(dashboard.totalResponses) / Convert.ToDouble(dashboard.totalEmployees);
+                    dashboard.responseRate *= 100;
+                    dashboard.q1Sentiment = Convert.ToDouble(sqlDt.Rows[0]["avg(sentiment)"]);
+                    dashboard.q2Sentiment = Convert.ToDouble(sqlDt.Rows[1]["avg(sentiment)"]);
+                    dashboard.q3Sentiment = Convert.ToDouble(sqlDt.Rows[2]["avg(sentiment)"]);
                 }
-
+                catch (Exception e)
+                {
+                    throw e;
+                }
+                sqlConnection.Close();
             }
 
             return dashboard;
         }
 
 
-        [WebMethod(EnableSession = true)]
-        public Dashboard GetDashValues2()
-        {
-            Dashboard dashboard = new Dashboard();
-            if (Session["id"] != null)
-            {
-                DataTable sqlDt = new DataTable("dashboard");
-
-                string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
-                
-                string sqlSelect1 = "select * from ResponseCount";
-
-
-                MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
-                MySqlCommand sqlCommand1 = new MySqlCommand(sqlSelect1, sqlConnection);
-                // MySqlCommand sqlCommand2 = new MySqlCommand(sqlSelect2, sqlConnection);
-
-                // Add the uid value that we get from the login page
-                //sqlCommand.Parameters.AddWithValue("@uid", HttpUtility.UrlDecode(Session["id"].ToString()));
-
-
-
-
-                MySqlDataAdapter sqlDa1 = new MySqlDataAdapter(sqlCommand1);
-                //  MySqlDataAdapter sqlDa2 = new MySqlDataAdapter(sqlCommand2);
-
-
-                //  MySqlDataAdapter[] sqlDaArr = new MySqlDataAdapter[] { sqlDa1, sqlDa2 };
-
-
-                //foreach(var sqlDa in sqlDaArr)
-                //{
-                //    sqlDa.Fill(sqlDt);
-                //    sqlDa.
-                //}
-
-                sqlDa1.Fill(sqlDt);
-
-
-
-                if (sqlDt.Rows.Count == 1)
-                {
-                  
-
-                    dashboard.totalResponses = Convert.ToInt32(sqlDt.Rows[0]["NumResponses"]);
-                }
-
-            }
-
-            return dashboard;
-        }
-
-
-        [WebMethod(EnableSession = true)]
-        public Dashboard GetDashValues3()
-        {
-            Dashboard dashboard = new Dashboard();
-            if (Session["id"] != null)
-            {
-                DataTable sqlDt = new DataTable("dashboard");
-
-                string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
-                string sqlSelect1 = "select * from responserate";
-                // string sqlSelect2 = "select * from ResponseCount";
-
-
-                MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
-                MySqlCommand sqlCommand1 = new MySqlCommand(sqlSelect1, sqlConnection);
-                // MySqlCommand sqlCommand2 = new MySqlCommand(sqlSelect2, sqlConnection);
-
-                // Add the uid value that we get from the login page
-                //sqlCommand.Parameters.AddWithValue("@uid", HttpUtility.UrlDecode(Session["id"].ToString()));
-
-
-
-
-                MySqlDataAdapter sqlDa1 = new MySqlDataAdapter(sqlCommand1);
-                //  MySqlDataAdapter sqlDa2 = new MySqlDataAdapter(sqlCommand2);
-
-
-                //  MySqlDataAdapter[] sqlDaArr = new MySqlDataAdapter[] { sqlDa1, sqlDa2 };
-
-
-                //foreach(var sqlDa in sqlDaArr)
-                //{
-                //    sqlDa.Fill(sqlDt);
-                //    sqlDa.
-                //}
-
-                sqlDa1.Fill(sqlDt);
-
-
-
-                if (sqlDt.Rows.Count == 1)
-                {
-                 
-
-
-                    dashboard.responseRate = Convert.ToDouble(sqlDt.Rows[0]["numresponses / numusers"]);
-                }
-
-            }
-
-            return dashboard;
-        }
-
+       
         ////EXAMPLE OF AN UPDATE QUERY WITH PARAMS PASSED IN
         //[WebMethod(EnableSession = true)]
         //public void UpdateAccount(string UserID, string UserPassword, string UserAdmin, string UserFirstName,  string UserLastName, string UserEmpID, string UserDepartment, string UserDirectReport)
@@ -548,6 +440,47 @@ namespace FeedbackWebApp
             }
             sqlConnection.Close();
 
+        }
+
+        [WebMethod(EnableSession = true)]
+        public Response[] GetResponses()
+        {
+            if(Session["id"] != null)
+            {
+                DataTable sqlDt = new DataTable("responses");
+
+                string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
+                string sqlSelect = "select ResponseID, surveyResponse, questionID, sentiment from response order by ResponseID";
+
+                MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
+                MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+
+                //gonna use this to fill a data table
+                MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
+                //filling the data table
+                sqlDa.Fill(sqlDt);
+
+                List<Response> responses = new List<Response>();
+                for (int i = 0; i < sqlDt.Rows.Count; i++)
+                {
+                    responses.Add(new Response
+                    {
+                        responseId = Convert.ToInt32(sqlDt.Rows[i]["ResponseID"]),
+                        responseText = sqlDt.Rows[i]["surveyResponse"].ToString(),
+                        questionId = Convert.ToInt32(sqlDt.Rows[i]["questionID"]),
+                        sentiment = Convert.ToDouble(sqlDt.Rows[i]["sentiment"])
+                    });
+                }
+
+                return responses.ToArray();
+            }
+            else
+            {
+                return new Response[0];
+            }
+
+            
         }
 
     }

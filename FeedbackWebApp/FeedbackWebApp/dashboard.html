@@ -17,14 +17,25 @@
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="./demo.css" rel="stylesheet" />ct -->
 
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="GetUser.js"></script>
+
+    <style>
+        .admin_item {
+            display: none;
+        }
+    </style>
 
     <script type="text/javascript">
-
-
+        var q1Sentiment = 0.0;
+        var q2Sentiment = 0.0;
+        var q3Sentiment = 0.0;
 
         function GetDashValues() {
             var webMethod = "AppServices.asmx/GetDashValues";
+            
+
 
             $.ajax({
                 type: "POST",
@@ -32,102 +43,58 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (msg) {
-
-                    //alert("Success")
-                    // Store the msg into a user variable
                     dashboard = msg.d
 
-                    //alert("test");
-
-                    //$("#user_title_fname").html(user.firstName);
-                    //$("#user_title").html(user.firstName + " " + user.lastName);
-                    //$("#user_fname").val(user.firstName);
-                    //$("#user_lname").val(user.lastName);
-                    //$("#user_username").val(user.firstName); 8
-                    //$("#user_dept").val(user.department);
-
-
                     $("#totalEmployees").html(dashboard.totalEmployees);
+                    $("#totalResponses").html(dashboard.totalResponses);
+                    $("#responseRate").html(dashboard.responseRate.toFixed(0) + '%');
 
+                    q1Sentiment = dashboard.q1Sentiment;
+                    q2Sentiment = dashboard.q2Sentiment;
+                    q3Sentiment = dashboard.q3Sentiment;
 
-                    //alert("success");
-                    //alert(msg.data);
-
+                    drawStuff();
                 },
                 error: function (e) {
                     alert("Error with loading user values");
                 }
             });
-
         }
 
-        function GetDashValues2() {
-            var webMethod = "AppServices.asmx/GetDashValues2";
+        google.charts.load('current', { 'packages': ['bar'] });
+        google.charts.setOnLoadCallback(drawStuff);
 
-            $.ajax({
-                type: "POST",
-                url: webMethod,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (msg) {
+        function drawStuff() {
+            var data = new google.visualization.arrayToDataTable([
+                ["Questions", 'Sentiment', { role: 'style' }],
+                ["Question 1", q1Sentiment, 'color: green'],
+                ["Question 2", q2Sentiment, 'color: blue'],
+                ["Question 3", q3Sentiment, 'color: red'],
+            ]);
 
-                    //alert("Success")
-                    // Store the msg into a user variable
-                    dashboard = msg.d
-
-                 
-
-
-                    $("#totalResponses").html(dashboard.totalResponses);
-
-
-                
-
+            var options = {
+                width: 1100,
+                height: 400,
+                legend: { position: 'none' },
+                axes: {
+                    x: {
+                        0: { side: 'bottom', label: 'Questions' } // Top x-axis.
+                    }
                 },
-                error: function (e) {
-                    alert("Error with loading response values");
-                }
-            });
+                bar: { groupWidth: "80%" }
+            };
 
-        }
-
-        function GetDashValues3() {
-            var webMethod = "AppServices.asmx/GetDashValues3";
-
-            $.ajax({
-                type: "POST",
-                url: webMethod,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (msg) {
-
-                    
-                    dashboard = msg.d
-
-
-
-
-                    $("#responseRate").html(dashboard.responseRate);
-
-
-
-
-                },
-                error: function (e) {
-                    alert("Error with loading response rate values");
-                }
-            });
-
-        }
-
-
-    </script>-->
+            var chart = new google.charts.Bar(document.getElementById('top_x_div'));
+            // Convert the Classic options to Material options.
+            chart.draw(data, google.charts.Bar.convertOptions(options));
+        };
+    </script>
 
 
 
 </head>
 
-<body class="" onload="GetDashValues(), GetDashValues2(), GetDashValues3()">
+<body class="" onload="GetUserData(), GetDashValues()">
 <div class="wrapper ">
 <div class="sidebar" data-color="white" data-active-color="danger">
 <!--
@@ -139,12 +106,7 @@ Tip 1: You can change the color of the sidebar using: data-color="blue | green |
 <img src="./img/logo-small.png">
 </div>
 </a>
-<a class="simple-text logo-normal">
-Shirley
-<!-- <div class="logo-image-big">
-    <img src="../assets/img/logo-big.png">
-</div> -->
-</a>
+<a class="simple-text logo-normal" id="user_title_fname"></a>
 </div>
 <div class="sidebar-wrapper">
 <ul class="nav">
@@ -154,13 +116,13 @@ Shirley
             <p>User Profile</p>
         </a>
     </li>
-    <li class="active ">
+    <li class="admin_item">
         <a href="./dashboard.html">
             <i class="nc-icon nc-bank"></i>
             <p>Dashboard</p>
         </a>
     </li>
-    <li>
+    <li class="admin_item">
         <a href="./tables.html">
             <i class="nc-icon nc-tile-56"></i>
             <p>Table List</p>
@@ -271,81 +233,7 @@ Shirley
                     </div>
                     <div class="card-body ">
                         <canvas width="1100" height="2"></canvas>
-                        <head>
-                            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-                            <script type="text/javascript">
-                              google.charts.load('current', {'packages':['bar']});
-                                google.charts.setOnLoadCallback(drawStuff);        
-
-
-
-                                function drawStuff() {
-
-
-                                //function GetSentValues() {
-
-
-                                //    var webMethod = "AppServices.asmx/GetDashValues3";
-
-                                //    $.ajax({
-                                //        type: "POST",
-                                //        url: webMethod,
-                                //        contentType: "application/json; charset=utf-8",
-                                //        dataType: "json",
-                                //        success: function (msg) {
-
-
-                                //            dashboard = msg.d;
-
-                                //            debugger;
-                                //            var question1 = dashboard.responseRate; //this will change to dashboard.sentiment
-                                //            var question2;
-                                //            var question1 = 5;
-                                //        },
-                                //        error: function (e) {
-                                //            alert("Error with loading sent values");
-                                //        }
-                                //    });
-
-                                    
-
-                                //}
-
-                                    //debugger;
-
-                               // var question1 = document.getElementById("totalResponses").value;
-                                   
-
-                                var data = new google.visualization.arrayToDataTable([
-                                  ["Questions", 'Sentiment', { role: 'style' } ],
-                                  ["Question 1", 1, 'color: gray'],
-                                  ["Question 2", 1, 'color: #76A7FA'],
-                                  ["Question 3", -0.5, 'color: #703593'],
-                                ]);
-                        
-                                var options = {
-                                  width: 1100,
-                                  height: 400,
-                                  legend: { position: 'none' },
-                                  axes: {
-                                    x: {
-                                      0: { side: 'top', label: 'Questions'} // Top x-axis.
-                                    }
-                                  },
-                                  bar: { groupWidth: "50%" }
-                                };
-                        
-                                var chart = new google.charts.Bar(document.getElementById('top_x_div'));
-                                // Convert the Classic options to Material options.
-                                        chart.draw(data, google.charts.Bar.convertOptions(options));
-
-                                };
-
-                            </script>
-                          </head>
-                          <body>
-                            <div id="top_x_div" style="width: 800px; height: 600px;"></div>
-                          </body>
+                        <div id="top_x_div" style="width: 800px; height: 600px;"></div>                          
                     </div>  
                 </div>
             </div>  

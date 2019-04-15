@@ -18,6 +18,13 @@
     <link href="./demo.css" rel="stylesheet" />
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="GetUser.js"></script>
+
+    <style>
+        .admin_item {
+            display: none;
+        }
+    </style>
 
     <script type="text/javascript">
 
@@ -39,7 +46,7 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (msg) {
-                    alert("Responses Sent");                    
+                    alert("Responses Sent");
                 },
                 error: function (e) {
                     alert("Error sending responses");
@@ -47,13 +54,13 @@
             });
         }
 
-       
+
 
 
     </script>
 </head>
 
-	<body class="">
+	<body class="" onload="GetUserData()">
 			<div class="wrapper ">
 					<div class="sidebar" data-color="white" data-active-color="danger">
 							<div class="logo">
@@ -62,9 +69,7 @@
 													<img src="./img/logo-small.png">
 											</div>
 									</a>
-									<a class="simple-text logo-normal">
-											Shirley
-									</a>
+									<a class="simple-text logo-normal"  id="user_title_fname"></a>
 							</div>
 					              <div class="sidebar-wrapper">
 													<ul class="nav">
@@ -74,13 +79,13 @@
 																			<p>User Profile</p>
 																	</a>
 															</li>
-															<li>
+															<li class="admin_item">
 																	<a href="./dashboard.html">
 																			<i class="nc-icon nc-bank"></i>
 																			<p>Dashboard</p>
 																	</a>
 															</li>
-															<li>
+															<li class="admin_item">
 																	<a href="./tables.html">
 																			<i class="nc-icon nc-tile-56"></i>
 																			<p>Table List</p>

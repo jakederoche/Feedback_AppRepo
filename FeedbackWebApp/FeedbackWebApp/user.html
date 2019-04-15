@@ -18,39 +18,13 @@
   <link href="./demo.css" rel="stylesheet" />
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>  
+  <script src="GetUser.js"></script>
 
-  <script>
-      function GetUserData() {
-          var webMethod = "AppServices.asmx/GetUser";
-
-          $.ajax({
-              type: "POST",
-              url: webMethod,
-              contentType: "application/json; charset=utf-8",
-              dataType: "json",
-              success: function (msg) {
-
-                  // Store the msg into a user variable
-                  user = msg.d
-
-                  $("#user_title_fname").html(user.firstName);
-                  $("#user_title").html(user.firstName + " " + user.lastName);
-                  $("#user_fname").val(user.firstName);
-                  $("#user_lname").val(user.lastName);                  
-                  $("#user_username").val(user.firstName);8
-                  $("#user_dept").val(user.department);
-
-                  //alert("success");
-                  //alert(msg.data);
-
-              },
-              error: function (e) {
-                  alert("Error with loading User Data");
-              }
-          });
-
+  <style>
+      .admin_item{
+          display: none;
       }
-  </script>
+  </style>
 
 </head>
 
@@ -81,13 +55,13 @@
                       <p>User Profile</p>
                   </a>
               </li>
-              <li>
+              <li class="admin_item">
                   <a href="./dashboard.html">
                       <i class="nc-icon nc-bank"></i>
                       <p>Dashboard</p>
                   </a>
               </li>
-              <li>
+              <li class="admin_item">
                   <a href="./tables.html">
                       <i class="nc-icon nc-tile-56"></i>
                       <p>Table List</p>
