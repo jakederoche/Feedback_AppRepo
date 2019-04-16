@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Services;
 using VaderSharp;
@@ -401,6 +403,7 @@ namespace FeedbackWebApp
         [WebMethod(EnableSession = true)]
         private void StoreResponse(int questionNumber, string response)
         {
+            string tempResponse = response;
             double responseSentiment = GetSentiment(response);
             string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
             //the only thing fancy about this query is SELECT LAST_INSERT_ID() at the end.  All that
@@ -413,7 +416,7 @@ namespace FeedbackWebApp
 
             //sqlCommand.Parameters.AddWithValue("@responseID", HttpUtility.UrlDecode(ResponseID));
             sqlCommand.Parameters.AddWithValue("@userID", HttpUtility.UrlDecode(Session["id"].ToString()));
-            sqlCommand.Parameters.AddWithValue("@surveyResponse", HttpUtility.UrlDecode(response));
+            sqlCommand.Parameters.AddWithValue("@surveyResponse", HttpUtility.UrlDecode(tempResponse));
             sqlCommand.Parameters.AddWithValue("@questionID", HttpUtility.UrlDecode(questionNumber.ToString()));
             sqlCommand.Parameters.AddWithValue("@surveyID", HttpUtility.UrlDecode("1"));
             sqlCommand.Parameters.AddWithValue("@sentiment", HttpUtility.UrlDecode(responseSentiment.ToString()));
@@ -427,11 +430,12 @@ namespace FeedbackWebApp
             //by closing the connection and moving on
             try
             {
-                int accountID = Convert.ToInt32(sqlCommand.ExecuteScalar());
+                int responseID = Convert.ToInt32(sqlCommand.ExecuteScalar());
                 //here, you could use this accountID for additional queries regarding
                 //the requested account.  Really this is just an example to show you
                 //a query where you get the primary key of the inserted row back from
                 //the database!
+                StoreKeyWords(response, responseID);
 
             }
             catch (Exception e)
@@ -440,6 +444,95 @@ namespace FeedbackWebApp
             }
             sqlConnection.Close();
 
+        }
+
+        [WebMethod(EnableSession = true)]
+        private void StoreKeyWords(string response, int responseId)
+        {
+            List<string> tokenizedResponses = new List<string>();
+            List<KeyWords> keyWords = new List<KeyWords>();
+            tokenizedResponses = Tokenize(response).ToList<string>();
+
+            string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
+            //the only thing fancy about this query is SELECT LAST_INSERT_ID() at the end.  All that
+            //does is tell mySql server to return the primary key of the last inserted row.
+            
+
+            MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
+            
+
+            //sqlCommand.Parameters.AddWithValue("@responseID", HttpUtility.UrlDecode(ResponseID));
+            //sqlCommand.Parameters.AddWithValue("@userID", HttpUtility.UrlDecode(tempKey);            
+            //sqlCommand.Parameters.AddWithValue("@sentiment", HttpUtility.UrlDecode(responseSentiment.ToString()));
+
+            //this time, we're not using a data adapter to fill a data table.  We're just
+            //opening the connection, telling our command to "executescalar" which says basically
+            //execute the query and just hand me back the number the query returns (the ID, remember?).
+            //don't forget to close the connection!
+            //sqlConnection.Open();
+
+            for (int i = 0; i < tokenizedResponses.Count; i++)
+            {
+                KeyWords tempKeyWord = new KeyWords();
+                string word = tokenizedResponses[i];
+                //// Temp List to store current cleaned response
+                //List<string> tempList = new List<string>();
+
+                // If the lowercase version of tokenized word IS NOT in Stop Words List
+                if (!(StopWords.stopWordsList.Contains(word.ToLower())))
+                {
+                    string sqlSelect = "insert into words (wordsWord, responseID)" +
+                            "values(@wordsWord, @responseId); SELECT LAST_INSERT_ID();";
+
+                    MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+                   
+                    //tempKeyWord.KeyWord = word;
+                    //tempKeyWord.ResponseID = responseId.ToString();
+
+                    //sqlCommand.Parameters.AddWithValue("@responseID", HttpUtility.UrlDecode(ResponseID));
+                    sqlCommand.Parameters.AddWithValue("@wordsWord", HttpUtility.UrlDecode(word));
+                    sqlCommand.Parameters.AddWithValue("@responseId", HttpUtility.UrlDecode(responseId.ToString()));
+                                        
+                    sqlConnection.Open();
+
+                    try
+                    {
+                        int keyWordID = Convert.ToInt32(sqlCommand.ExecuteScalar());                     
+                    }
+                    catch (Exception e)
+                    {
+                        throw e;
+                    }
+                    sqlConnection.Close();
+                }
+            }
+
+            // return keyWords.ToArray();
+
+        }
+
+        private static string[] Tokenize(string text)
+        {
+            // Strip all HTML.
+            text = Regex.Replace(text, "<[^<>]+>", "");
+
+            // Strip numbers.
+            text = Regex.Replace(text, "[0-9]+", "number");
+
+            // Strip urls.
+            text = Regex.Replace(text, @"(http|https)://[^\s]*", "httpaddr");
+
+            // Strip email addresses.
+            text = Regex.Replace(text, @"[^\s]+@[^\s]+", "emailaddr");
+
+            // Strip dollar sign.
+            text = Regex.Replace(text, "[$]+", "dollar");
+
+            // Strip usernames.
+            text = Regex.Replace(text, @"@[^\s]+", "username");
+
+            // Tokenize and also get rid of any punctuation
+            return text.Split(" @$/#.-:&*+=[]?!(){},''\">_<;%\\".ToCharArray());
         }
 
         [WebMethod(EnableSession = true)]

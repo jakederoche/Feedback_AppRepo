@@ -15,7 +15,7 @@
     <link href="./bootstrap.min.css" rel="stylesheet" />
     <link href="./paper-dashboard.css?v=2.0.0" rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link href="./demo.css" rel="stylesheet" />ct -->
+    <link href="./demo.css" rel="stylesheet" />
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -33,8 +33,7 @@
         var q3Sentiment = 0.0;
 
         function GetDashValues() {
-            var webMethod = "AppServices.asmx/GetDashValues";
-            
+            var webMethod = "AppServices.asmx/GetDashValues";           
 
 
             $.ajax({
@@ -67,15 +66,16 @@
         function drawStuff() {
             var data = new google.visualization.arrayToDataTable([
                 ["Questions", 'Sentiment', { role: 'style' }],
-                ["Question 1", q1Sentiment, 'color: green'],
-                ["Question 2", q2Sentiment, 'color: blue'],
-                ["Question 3", q3Sentiment, 'color: red'],
+                ["Question 1", q1Sentiment, 'green'],
+                ["Question 2", q2Sentiment, 'blue'],
+                ["Question 3", q3Sentiment, 'red'],
             ]);
 
             var options = {
                 width: 1100,
                 height: 400,
                 legend: { position: 'none' },
+                color:  [ 'red', 'blue', 'green'],
                 axes: {
                     x: {
                         0: { side: 'bottom', label: 'Questions' } // Top x-axis.
@@ -106,7 +106,9 @@ Tip 1: You can change the color of the sidebar using: data-color="blue | green |
 <img src="./img/logo-small.png">
 </div>
 </a>
-<a class="simple-text logo-normal" id="user_title_fname"></a>
+<a class="simple-text logo-normal" id="user_title_fname">
+    Hello!
+</a>
 </div>
 <div class="sidebar-wrapper">
 <ul class="nav">
@@ -228,8 +230,8 @@ Tip 1: You can change the color of the sidebar using: data-color="blue | green |
             <div class="col-md-12">
                 <div class="card ">
                     <div class="card-header ">
-                        <h5 class="card-title">Responses</h5>
-                            <p class="card-category">Sentiment Analysis</p>
+                        <h5 class="card-title">Sentiment Analysis</h5>
+                            <p class="card-category">Group By Responses</p>
                     </div>
                     <div class="card-body ">
                         <canvas width="1100" height="2"></canvas>
