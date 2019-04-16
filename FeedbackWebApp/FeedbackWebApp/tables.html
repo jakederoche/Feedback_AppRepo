@@ -20,6 +20,41 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <script src="GetUser.js"></script>
+
+    <script type="text/javascript">
+
+      function GetResponses() {
+          var webMethod = "AppServices.asmx/GetResponses";           
+
+          for (i = 0; i <= 10; i ++)
+          {
+            $.ajax({
+              type: "POST",
+              url: webMethod + i ,
+              contentType: "application/json; charset=utf-8",
+              dataType: "json",
+              success: function (msg) {
+                  tables = msg.d
+
+                  $("#responseId").html(tables.responseId);
+                  $("#responseText").html(tables.responseText);
+                  $("#questionId").html(tables.questionId);
+                  $("#sentiment").html(tables.sentiment);
+
+                  responseId = tables.responseId;
+                  responseText = tables.responseText;
+                  questionId = tables.questionId;
+                  sentiment = tables.sentiment;
+
+                  drawStuff();
+              },
+              error: function (e) {
+                  alert("Error with loading user values");
+              }
+            });
+          }
+      }
+  </script>
 </head>
 
 <body class="" onload="GetUserData()">
