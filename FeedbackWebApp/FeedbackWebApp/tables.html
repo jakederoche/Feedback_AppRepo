@@ -30,23 +30,45 @@
           {
             $.ajax({
               type: "POST",
-              url: webMethod + i ,
+              url: webMethod,
               contentType: "application/json; charset=utf-8",
               dataType: "json",
               success: function (msg) {
-                  tables = msg.d
+                  responses = msg.d
 
-                  $("#responseId").html(tables.responseId);
-                  $("#responseText").html(tables.responseText);
-                  $("#questionId").html(tables.questionId);
-                  $("#sentiment").html(tables.sentiment);
+                  let tableNode = document.getElementById("response_table");
 
-                  responseId = tables.responseId;
-                  responseText = tables.responseText;
-                  questionId = tables.questionId;
-                  sentiment = tables.sentiment;
+                  for (var i = 0; i < responses.length; i++) {
+                      let trNode = tableNode.insertRow(i);
 
-                  drawStuff();
+                      // Creates table dimension elements for each dimension needed 
+                      let tdResponseId = document.createElement('td')
+                      let tdResponseText = document.createElement('td')
+                      let tsQuestionId = document.createElement('td')
+                      let tdSentiment = document.createElement('td')
+
+                      tdResponseId = trNode.insertCell(0);
+                      tdResponseText = trNode.insertCell(1);
+                      tdQuestionId = trNode.insertCell(2);
+                      tdSentiment = trNode.insertCell(3);
+
+                      tdResponseId.innerHTML = responses[i].responseId;
+                      tdResponseText.innerHTML = responses[i].responseText;
+                      tdQuestionId.innerHTML = responses[i].questionId;
+                      tdSentiment.innerHTML = responses[i].sentiment;
+                  }
+
+                  //$("#responseId").html(tables.responseId);
+                  //$("#responseText").html(tables.responseText);
+                  //$("#questionId").html(tables.questionId);
+                  //$("#sentiment").html(tables.sentiment);
+
+                  //responseId = tables.responseId;
+                  //responseText = tables.responseText;
+                  //questionId = tables.questionId;
+                  //sentiment = tables.sentiment;
+
+                  //drawStuff();
               },
               error: function (e) {
                   alert("Error with loading user values");
@@ -57,7 +79,7 @@
   </script>
 </head>
 
-<body class="" onload="GetUserData()">
+<body class="" onload="GetUserData(), GetResponses()">
   <div class="wrapper ">
     <div class="sidebar" data-color="white" data-active-color="danger">
       <!--
@@ -152,7 +174,7 @@
                       <th>
                         Sentiment from Response
                     </thead>
-                    <tbody>
+                    <tbody id="response_table">
                       <tr>
                         <td>
                           <div class="numbers">
@@ -175,6 +197,7 @@
                           </div>
                         </td>
                       </tr>
+
                     </tbody>
                   </table>
                 </div>
