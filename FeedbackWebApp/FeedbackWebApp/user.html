@@ -2,199 +2,235 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>
-    User Profile
-  </title>
-  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-  <!--     Fonts and icons     -->
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-  <!-- CSS Files -->
-  <link href="./bootstrap.min.css" rel="stylesheet" />
-  <link href="./paper-dashboard.css?v=2.0.0" rel="stylesheet" />
-  <!-- CSS Just for demo purpose, don't include it in your project -->
-  <link href="./demo.css" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>
+        User Profile
+    </title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <!-- CSS Files -->
+    <link href="./bootstrap.min.css" rel="stylesheet" />
+    <link href="./paper-dashboard.css?v=2.0.0" rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="./demo.css" rel="stylesheet" />
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>  
-  <script src="GetUser.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="GetUser.js"></script>
 
-  <style>
-      .admin_item{
-          display: none;
-      }
-  </style>
+    <style>
+        .admin_item {
+            display: none;
+        }
+    </style>
 
-</head>
+    <script type="text/javascript">
 
-<body class="" onload="GetUserData()">
-  <div class="wrapper ">
-    <div class="sidebar" data-color="white" data-active-color="danger">
-      <!--
-        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
-    -->
-      <div class="logo">
-        <a class="simple-text logo-mini">
-          <div class="logo-image-small">
-            <img src="./img/logo-small.png">
-          </div>
-        </a>
-        <a class="simple-text logo-normal" id="user_title_fname">
-          Hello!
-          <!-- <div class="logo-image-big">
-            <img src="../assets/img/logo-big.png">
-          </div> -->
-        </a>
-      </div>
-      <div class="sidebar-wrapper">
-          <ul class="nav">
-              <li class="active ">
-                  <a href="./user.html">
-                      <i class="nc-icon nc-single-02"></i>
-                      <p>User Profile</p>
-                  </a>
-              </li>
-              <li class="admin_item">
-                  <a href="./dashboard.html">
-                      <i class="nc-icon nc-bank"></i>
-                      <p>Dashboard</p>
-                  </a>
-              </li>
-              <li class="admin_item">
-                  <a href="./tables.html">
-                      <i class="nc-icon nc-tile-56"></i>
-                      <p>Table List</p>
-                  </a>
-              </li>
-              <li>
-                  <a href="./Feedback.html">
-                      <i class="nc-icon nc-tile-56"></i>
-                      <p>Feedback Survey</p>
-                  </a>
-              </li>
-              <li>
-                  <a href="./Journal.html">
-                      <i class="nc-icon nc-tile-56"></i>
-                      <p>Anonymous Journal</p>
-                  </a>
-              </li>
-          </ul>
-      </div>
+
+        //logs the user off both at the client and at the server
+        function LogOff() {
+
+            var webMethod = "AppServices.asmx/LogOff";
+            $.ajax({
+                type: "POST",
+                url: webMethod,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    if (msg.d) {
+                        //we logged off, so go back to logon page,
+                        //stop checking messages
+                        //and clear the chat panel
+                        //showPanel('logonPanel');
+                        //HideMenu();
+
+                        window.location.href = "login.html";
+                    }
+                    else {
+                    }
+                },
+                error: function (e) {
+                    alert("boo...");
+                }
+            });
+        }
+
+
+    </script>
+
+</head >
+
+                <body class="" onload="GetUserData()">
+                    <div class="wrapper ">
+                        <div class="sidebar" data-color="white" data-active-color="danger">
+                            <!--
+                Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
+            -->
+              <div class="logo">
+                                <a class="simple-text logo-mini">
+                                    <div class="logo-image-small">
+                                        <img src="./img/logo-small.png">
+                  </div>
+                </a>
+                                    <a class="simple-text logo-normal" id="user_title_fname">
+                                        Hello!
+                  <!-- <div class="logo-image-big">
+                                            <img src="../assets/img/logo-big.png">
+                  </div> -->
+                </a>
+              </div>
+                                    <div class="sidebar-wrapper">
+                                        <ul class="nav">
+                                            <li class="active ">
+                                                <a href="./user.html">
+                                                    <i class="nc-icon nc-single-02"></i>
+                                                    <p>User Profile</p>
+                                                </a>
+                                            </li>
+                                            <li class="admin_item">
+                                                <a href="./dashboard.html">
+                                                    <i class="nc-icon nc-bank"></i>
+                                                    <p>Dashboard</p>
+                                                </a>
+                                            </li>
+                                            <li class="admin_item">
+                                                <a href="./tables.html">
+                                                    <i class="nc-icon nc-tile-56"></i>
+                                                    <p>Table List</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="./Feedback.html">
+                                                    <i class="nc-icon nc-tile-56"></i>
+                                                    <p>Feedback Survey</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="./Journal.html">
+                                                    <i class="nc-icon nc-tile-56"></i>
+                                                    <p>Anonymous Journal</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+            </div>
+                                <div class="main-panel">
+                                    <!-- Navbar -->
+              <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+                                        <div class="container-fluid">
+                                            <div class="navbar-wrapper">
+                                                <div class="navbar-toggle">
+                                                    <button type="button" class="navbar-toggler">
+                                                        <span class="navbar-toggler-bar bar1"></span>
+                                                        <span class="navbar-toggler-bar bar2"></span>
+                                                        <span class="navbar-toggler-bar bar3"></span>
+                                                    </button>
+                                                </div>
+                                                <a class="navbar-brand" href="#pablo">User Profile</a>
+                                            </div>
+                                        </div>
+                                    </nav>
+                                    <!-- End Navbar -->
+              <!-- <div class="panel-header panel-header-sm">
+
+
+                                    </div> -->
+              <div class="content">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="card card-user">
+                                                    <div class="image">
+                                                        <img src="./img/damir-bosnjak.jpg" alt="...">
+                      </div>
+                                                        <div class="card-body">
+                                                            <div class="author">
+                                                                <a href="#">
+                                                                    <img class="avatar border-gray" src="./img/logo-small.png" alt="...">
+                                                                        <h5 class="title" id="user_title"></h5>
+                          </a>
+                        </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="card card-user">
+                                                            <div class="card-header">
+                                                                <h5 class="card-title">User Information</h5>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <form>
+                                                                    <div class="row">
+                                                                        <div class="col-md-5 pr-1">
+                                                                            <div class="form-group">
+                                                                                <label>Company (disabled)</label>
+                                                                                <input type="text" class="form-control" disabled="" placeholder="Company" value="USAA">
+                              </div>
+                                                                            </div>
+                                                                            <div class="col-md-3 px-1">
+                                                                                <div class="form-group">
+                                                                                    <label>Username</label>
+                                                                                    <input type="text" class="form-control" placeholder="Username" id="user_username" value="">
+                              </div>
+                                                                                </div>
+                                                                                <div class="col-md-4 pl-1">
+                                                                                    <div class="form-group">
+                                                                                        <!--<label for="exampleInputEmail1">Email address</label>
+                                                                                        <input type="email" class="form-control" placeholder="Email">-->
+                              </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6 pr-1">
+                                                                                        <div class="form-group">
+                                                                                            <label>First Name</label>
+                                                                                            <input type="text" class="form-control" placeholder="Company" id="user_fname" value="">
+                              </div>
+                                                                                        </div>
+                                                                                        <div class="col-md-6 pl-1">
+                                                                                            <div class="form-group">
+                                                                                                <label>Last Name</label>
+                                                                                                <input type="text" class="form-control" placeholder="Last Name" id="user_lname" value="">
+                              </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-12">
+                                                                                                <div class="form-group">
+                                                                                                    <label>Department</label>
+                                                                                                    <input type="text" class="form-control" placeholder="Department" id="user_dept" value="">
+                              </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="row">
+                                                                                                <div class="update ml-auto mr-auto">
+                                                                                                    <button type="submit" class="btn btn-primary btn-round">Update Profile</button>
+
+                                                                                                    <input type="button" value="Log Off "class="btn btn-primary btn-round" onclick="LogOff()">
+                                                                                                </div>
+                                                                                            </div>
+                        </form>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <footer class="footer footer-black  footer-white ">
+                                                                        <div class="container-fluid">
+                                                                            <div class="row">
+                                                                                <div class="credits ml-auto">
+                                                                                    <span class="copyright">
+                                                                                        ©
+                          <!--<script>
+                                                                                            document.write(new Date().getFullYear())
+    </script>-->2019 , Made by ScrumOfTheEarth
+    </span>
     </div>
-    <div class="main-panel">
-      <!-- Navbar -->
-      <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
-        <div class="container-fluid">
-          <div class="navbar-wrapper">
-            <div class="navbar-toggle">
-              <button type="button" class="navbar-toggler">
-                <span class="navbar-toggler-bar bar1"></span>
-                <span class="navbar-toggler-bar bar2"></span>
-                <span class="navbar-toggler-bar bar3"></span>
-              </button>
-            </div>
-            <a class="navbar-brand" href="#pablo">User Profile</a>
-          </div>
-        </div>
-      </nav>
-      <!-- End Navbar -->
-      <!-- <div class="panel-header panel-header-sm">
-  
-  
-</div> -->
-      <div class="content">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card card-user">
-              <div class="image">
-                <img src="./img/damir-bosnjak.jpg" alt="...">
-              </div>
-              <div class="card-body">
-                <div class="author">
-                  <a href="#">
-                    <img class="avatar border-gray" src="./img/logo-small.png" alt="...">
-                    <h5 class="title" id="user_title"></h5>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-12">
-            <div class="card card-user">
-              <div class="card-header">
-                <h5 class="card-title">User Information</h5>
-              </div>
-              <div class="card-body">
-                <form>
-                  <div class="row">
-                    <div class="col-md-5 pr-1">
-                      <div class="form-group">
-                        <label>Company (disabled)</label>
-                        <input type="text" class="form-control" disabled="" placeholder="Company" value="USAA">
-                      </div>
-                    </div>
-                    <div class="col-md-3 px-1">
-                      <div class="form-group">
-                        <label>Username</label>
-                        <input type="text" class="form-control" placeholder="Username" id="user_username" value="">
-                      </div>
-                    </div>
-                    <div class="col-md-4 pl-1">
-                      <div class="form-group">
-                        <!--<label for="exampleInputEmail1">Email address</label>
-                        <input type="email" class="form-control" placeholder="Email">-->
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6 pr-1">
-                      <div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" class="form-control" placeholder="Company" id="user_fname" value="">
-                      </div>
-                    </div>
-                    <div class="col-md-6 pl-1">
-                      <div class="form-group">
-                        <label>Last Name</label>
-                        <input type="text" class="form-control" placeholder="Last Name" id="user_lname"  value="">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label>Department</label>
-                        <input type="text" class="form-control" placeholder="Department" id="user_dept" value="">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="update ml-auto mr-auto">
-                      <button type="submit" class="btn btn-primary btn-round">Update Profile</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <footer class="footer footer-black  footer-white ">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="credits ml-auto">
-                <span class="copyright">
-                  ©
-                  <!--<script>
-                    document.write(new Date().getFullYear())
-                  </script>-->2019 , Made by ScrumOfTheEarth
-                </span>
-              </div>
-            </div>
-          </div>
-        </footer>
-      </div>
     </div>
-  </body>
-  </html>
+    </div>
+    </footer>
+    </div>
+    </div>
+    </body>
+</html>
