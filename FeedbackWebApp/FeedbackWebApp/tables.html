@@ -26,8 +26,6 @@
       function GetResponses() {
           var webMethod = "AppServices.asmx/GetResponses";           
 
-          for (i = 0; i <= 10; i ++)
-          {
             $.ajax({
               type: "POST",
               url: webMethod,
@@ -74,7 +72,6 @@
                   alert("Error with loading user values");
               }
             });
-          }
       }
   </script>
 </head>
