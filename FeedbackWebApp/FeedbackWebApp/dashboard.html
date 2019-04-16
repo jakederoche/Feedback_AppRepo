@@ -33,8 +33,7 @@
         var q3Sentiment = 0.0;
 
         function GetDashValues() {
-            var webMethod = "AppServices.asmx/GetDashValues";
-            
+            var webMethod = "AppServices.asmx/GetDashValues";           
 
 
             $.ajax({
@@ -67,15 +66,16 @@
         function drawStuff() {
             var data = new google.visualization.arrayToDataTable([
                 ["Questions", 'Sentiment', { role: 'style' }],
-                ["Question 1", q1Sentiment, 'color: green'],
-                ["Question 2", q2Sentiment, 'color: blue'],
-                ["Question 3", q3Sentiment, 'color: red'],
+                ["Question 1", q1Sentiment, 'green'],
+                ["Question 2", q2Sentiment, 'blue'],
+                ["Question 3", q3Sentiment, 'red'],
             ]);
 
             var options = {
                 width: 1100,
                 height: 400,
                 legend: { position: 'none' },
+                color:  [ 'red', 'blue', 'green'],
                 axes: {
                     x: {
                         0: { side: 'bottom', label: 'Questions' } // Top x-axis.
