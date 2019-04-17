@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AppServices.asmx" />
+    <Content Include="blue.PNG" />
     <Content Include="bootstrap.min.css" />
     <Content Include="createaccount.html" />
     <Content Include="dashboard.html" />
@@ -102,6 +103,7 @@
     <Content Include="Ocean1.jpg" />
     <Content Include="paper-dashboard.css" />
     <Content Include="paper-dashboard.min.css" />
+    <Content Include="ScrumLogo.png" />
     <Content Include="tables.html" />
     <Content Include="user.html" />
     <Content Include="Web.config" />
