@@ -91,7 +91,8 @@ textarea{
 /*Login CSS*/
 
 .loginBody{
-	background: url("Img/Login.jpg") no-repeat center center fixed;
+	/*background: url("Img/Login.jpg") no-repeat center center fixed;*/
+    background-color: lightblue;
 	background-repeat: no-repeat;
 	-webkit-background-size: cover;
   -moz-background-size: cover;
