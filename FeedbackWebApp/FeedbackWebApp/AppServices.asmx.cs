@@ -20,6 +20,7 @@ namespace FeedbackWebApp
     [System.Web.Script.Services.ScriptService]
     public class AppServices : System.Web.Services.WebService
     {
+        User user = new User();
 
         [WebMethod(EnableSession = true)] //NOTICE: gotta enable session on each individual method
         public bool LogOn(string uid, string pass)
@@ -80,40 +81,48 @@ namespace FeedbackWebApp
             Session.Abandon();
             return true;
         }
+                
 
         [WebMethod(EnableSession = true)]
         public User GetUser()
         {
-            User user = new User();
+            
             if (Session["id"] != null)
             {
-                DataTable sqlDt = new DataTable("users");
-
-                string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
-                string sqlSelect = "select UserName, UserAdmin, UserFirstName, UserLastName, UserDepartment from users where UserID=@uid";
-
-                MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
-                MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
-
-                // Add the uid value that we get from the login page
-                sqlCommand.Parameters.AddWithValue("@uid", HttpUtility.UrlDecode(Session["id"].ToString()));
-
-                MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
-
-                sqlDa.Fill(sqlDt);
-                
-
-                if (sqlDt.Rows.Count == 1)
+                if (Session["user"] == null)
                 {
-                    user.userName = sqlDt.Rows[0]["UserName"].ToString();
-                    user.firstName = sqlDt.Rows[0]["UserFirstName"].ToString();
-                    user.lastName = sqlDt.Rows[0]["UserLastName"].ToString();
-                    user.admin = sqlDt.Rows[0]["UserAdmin"].ToString();
-                    user.department = sqlDt.Rows[0]["UserDepartment"].ToString();
+                    DataTable sqlDt = new DataTable("users");
+
+                    string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
+                    string sqlSelect = "select UserName, UserAdmin, UserFirstName, UserLastName, UserDepartment from users where UserID=@uid";
+
+                    MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
+                    MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+                    // Add the uid value that we get from the login page
+                    sqlCommand.Parameters.AddWithValue("@uid", HttpUtility.UrlDecode(Session["id"].ToString()));
+
+                    MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
+
+                    sqlDa.Fill(sqlDt);
+
+
+                    if (sqlDt.Rows.Count == 1)
+                    {
+                        user.userName = sqlDt.Rows[0]["UserName"].ToString();
+                        user.firstName = sqlDt.Rows[0]["UserFirstName"].ToString();
+                        user.lastName = sqlDt.Rows[0]["UserLastName"].ToString();
+                        user.admin = sqlDt.Rows[0]["UserAdmin"].ToString();
+                        user.department = sqlDt.Rows[0]["UserDepartment"].ToString();
+
+                        Session["user"] = user;
+                    }
                 }
-
+                else
+                {
+                    user = Session["user"] as User;
+                }
             }
-
             return user;
         }
 

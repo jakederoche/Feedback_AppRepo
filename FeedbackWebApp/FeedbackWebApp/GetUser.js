@@ -15,7 +15,7 @@ function GetUserData() {
             $("#user_title").html(user.firstName + " " + user.lastName);
             $("#user_fname").val(user.firstName);
             $("#user_lname").val(user.lastName);
-            $("#user_username").val(user.firstName);
+            $("#user_username").val(user.userName);
             $("#user_dept").val(user.department);
 
 
