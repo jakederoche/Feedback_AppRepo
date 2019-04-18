@@ -90,15 +90,15 @@ textarea{
 
 /*Login CSS*/
 
-.loginBody{
-	/*background: url("Img/Login.jpg") no-repeat center center fixed;*/
-    background-color: lightblue;
-	background-repeat: no-repeat;
-	-webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  font-family: "Raleway",sans-serif;
+.loginBody {
+    /*background: url("Img/Login.jpg") no-repeat center center fixed;*/
+    background-color: #00bef2;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-family: "Raleway",sans-serif;
 }
 
 .loginDiv{
