@@ -47,6 +47,11 @@
                 dataType: "json",
                 success: function (msg) {
                     alert("Responses Sent");
+
+                    document.getElementById("r1").value = "";
+                    document.getElementById("r2").value = "";
+                    document.getElementById("r3").value = "";
+
                 },
                 error: function (e) {
                     alert("Error sending responses");

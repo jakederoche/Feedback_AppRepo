@@ -403,7 +403,7 @@ namespace FeedbackWebApp
         [WebMethod(EnableSession = true)]
         private void StoreResponse(int questionNumber, string response)
         {
-            string tempResponse = response;
+            response = HttpUtility.UrlDecode(response);
             double responseSentiment = GetSentiment(response);
             string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
             //the only thing fancy about this query is SELECT LAST_INSERT_ID() at the end.  All that
@@ -416,7 +416,7 @@ namespace FeedbackWebApp
 
             //sqlCommand.Parameters.AddWithValue("@responseID", HttpUtility.UrlDecode(ResponseID));
             sqlCommand.Parameters.AddWithValue("@userID", HttpUtility.UrlDecode(Session["id"].ToString()));
-            sqlCommand.Parameters.AddWithValue("@surveyResponse", HttpUtility.UrlDecode(tempResponse));
+            sqlCommand.Parameters.AddWithValue("@surveyResponse", HttpUtility.UrlDecode(response));
             sqlCommand.Parameters.AddWithValue("@questionID", HttpUtility.UrlDecode(questionNumber.ToString()));
             sqlCommand.Parameters.AddWithValue("@surveyID", HttpUtility.UrlDecode("1"));
             sqlCommand.Parameters.AddWithValue("@sentiment", HttpUtility.UrlDecode(responseSentiment.ToString()));
@@ -435,7 +435,7 @@ namespace FeedbackWebApp
                 //the requested account.  Really this is just an example to show you
                 //a query where you get the primary key of the inserted row back from
                 //the database!
-                StoreKeyWords(response, responseID);
+                //StoreKeyWords(response, responseID);
 
             }
             catch (Exception e)
