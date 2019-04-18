@@ -53,20 +53,25 @@
 
 </head>
 <body class="loginBody">
-	<div class="loginDiv">
-		<form class="loginForm" action="#">
-			<h1 class="loginTitle">Login</h1>
-				<div class="loginFormContent"><br>
-					<label >Username:</label><br>
-					<input id="Username" type="text"><br><br><br>
-					<label for="">Password:</label><br>
-					<input id="pass" type="Password"><br>
-					<div class="submitButton">
-						<input type="button" value="Log In" onclick="LogOn(document.getElementById('Username').value, document.getElementById('pass').value)">
-					</div>
-					<a href="createaccount.html">Don't Have an Account Yet?</a>
-				</div>
-		</form>
-	</div>
+    <div class="login">
+        <div class="login_image">
+            <img src="ScrumLogo.png" alt="Logo">
+            <!--<h2 style="color: rgba(0,190,242)">Login</h2>-->
+        </div>
+        
+        <div class="login_content">            
+            <form action="#">                
+                <div class="login_content_form">
+                    <input id="Username" type="text" placeholder="Username">
+                </div>
+                <div class="login_content_form">
+                    <input id="pass" type="password" placeholder="Password">
+                </div>
+                <input class="login_btn" type="button" value="Log In" onclick="LogOn(document.getElementById('Username').value, document.getElementById('pass').value)">
+            </form>
+            <br/>
+            <a style="font-size:12px;" href="createaccount.html">Don't Have an Account Yet?</a>
+        </div>
+    </div>
 </body>
 </html>
