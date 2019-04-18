@@ -14,6 +14,7 @@
   width: 100%;
 }
 
+
 .typography-line span {
   bottom: 10px;
   color: #c0c1c2;
@@ -63,6 +64,12 @@
 }
 
 /* Nucleo Style */
+
+.logoz {
+    Position: absolute;
+    Left: 60px;
+    Bottom: 0;
+}
 
 .demo-iconshtml {
   font-size: 62.5%;
