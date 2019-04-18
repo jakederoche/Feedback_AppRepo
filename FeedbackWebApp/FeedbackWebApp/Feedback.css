@@ -91,86 +91,77 @@ textarea{
 /*Login CSS*/
 
 .loginBody {
-    /*background: url("Img/Login.jpg") no-repeat center center fixed;*/
-    background-color: #00bef2;
-    background-repeat: no-repeat;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    font-family: "Raleway",sans-serif;
+    background: #EEE;
+    margin: 0;
+    padding: 0;
 }
 
-.loginDiv{
-	text-align: center;
+.login {
+    position: relative;
+    margin: .5rem 0 1rem 0;
+    background-color: #fff;
+    border-radius: 2px;
+    max-width: 100%;
+    width: 22rem;
+    margin: 20px auto;
+    padding: 16px;
 }
 
-.loginForm{
-	background: white;
-	margin: auto;
-	text-align: left;
-	width: 60vh;
-	border-radius: 10px;
-	height: 80vh;
+.login_image {
+    max-height: 100%;
+    max-width: 100%;
+    text-align: center;
+    margin: 16px;
 }
 
-.loginFormContent input{
-	border: none;
-	font-size: 3vh;
-	margin: 10px;
-	border-bottom: 1px solid #00a4e4;
-	outline: none;
+.login img {
+    height: 200px;
+    width: 200px;
+    border-radius: 30px;
+    box-shadow: 0 0 0px rgba(0,0,0,.05);
+    padding-left: 40px;
 }
 
-.loginFormContent input:focus{
-	border-bottom: 1.5px solid #00a4e4;
+
+.login_content {
+    text-align: center;
+    padding: 25px 45px;
+    margin: 20px auto;
 }
 
-.loginTitle{
-	text-align: center;
-	font-size: 5vh;
+.login_form {
+    margin: 10px;
+    display: grid;
 }
 
-.loginFormContent{
-	text-align: center;
-}
 
-.submitButton input{
-	margin-top: 5vh;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	padding-left: 30px;
-	padding-right: 30px;
-	margin-bottom:20px;
-	border-radius: 40px;
-	cursor: pointer;
-	background-color: #fefefe;
-    background-image: linear-gradient(315deg, #fefefe 0%, #00a4e4 74%);
+.login input {
+    padding: 16px;
     border: none;
-    outline: none;
+    border-bottom: 2px solid rgba(0,190,242);
+    margin: 10px;
+    transition: .25s all;
 }
 
-.submitButton input:hover{
-	box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
-}
+    .login input:focus {
+        outline: none;
+        box-shadow: 0 0 10px rgba(0,0,0,.125);
+        border-bottom: none;
+        transition: .25s all;
+    }
 
-.loginFormContent label{
-	margin-top: 500px;
-}
 
-.loginBody a{
-	text-decoration: none;
-	font-size: 2vh;
-	color: black;
-}
 
-.loginTitle h1{
-	border-bottom: 1px solid #00a4e4;
-	font-size: 5vh;
-}
 
-.loginFormContent label{
-	font-size: 3vh;
+.login_btn {
+    border: none;
+    background: rgba(0,190,242);
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 16px;
+    width: 200px;
+    color: white;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.2);
 }
 
 /*Create Account CSS*/
