@@ -99,6 +99,7 @@
     <Content Include="GetUser.js" />
     <Content Include="Global.asax" />
     <Content Include="Journal.html" />
+    <Content Include="keyWords.html" />
     <Content Include="Login.html" />
     <Content Include="Ocean1.jpg" />
     <Content Include="paper-dashboard.css" />

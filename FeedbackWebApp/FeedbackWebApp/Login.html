@@ -21,6 +21,8 @@
             var webMethod = "AppServices.asmx/LogOn";
             var parameters = "{\"uid\":\"" + encodeURI(id) + "\",\"pass\":\"" + encodeURI(pass) + "\"}";
 
+            
+
             $.ajax({
                 type: "POST",
                 url: webMethod,

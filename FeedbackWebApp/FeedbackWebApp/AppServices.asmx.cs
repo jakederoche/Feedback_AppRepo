@@ -585,5 +585,52 @@ namespace FeedbackWebApp
             
         }
 
+        
+        private void tokenizeResponses()
+        {
+            Response[] responses = GetResponses();
+            foreach (Response r in responses)
+            {
+                StoreKeyWords(r.responseText, r.responseId);
+            }
+        }
+
+        [WebMethod(EnableSession = true)]
+        public KeyWords[] getKeyWords()
+        {
+            if (Session["id"] != null)
+            {
+                DataTable sqlDt = new DataTable("responses");
+
+                string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
+                string sqlSelect = "Select wordsWord, Count(wordsWord) As Frequency From words Group By wordsWord Order by 2 desc";
+
+                MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
+                MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+
+                //gonna use this to fill a data table
+                MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
+                //filling the data table
+                sqlDa.Fill(sqlDt);
+
+                List<KeyWords> keyWords = new List<KeyWords>();
+                for (int i = 0; i < sqlDt.Rows.Count; i++)
+                {
+                    keyWords.Add(new KeyWords
+                    {
+                        KeyWord = sqlDt.Rows[i]["wordsWord"].ToString(),
+                        Frequency = Convert.ToInt32(sqlDt.Rows[i]["Frequency"])
+                    });
+                }
+
+                return keyWords.ToArray();
+            }
+            else
+            {
+                return new KeyWords[0];
+            }
+        }
+
     }
 }

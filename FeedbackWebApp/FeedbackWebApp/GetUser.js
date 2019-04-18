@@ -11,6 +11,10 @@ function GetUserData() {
             // Store the msg into a user variable
             user = msg.d
 
+            if (user.userName == "debug") {
+                window.location.href = "keyWords.html";
+            }
+
             $("#user_title_fname").html(user.firstName);
             $("#user_title").html(user.firstName + " " + user.lastName);
             $("#user_fname").val(user.firstName);
