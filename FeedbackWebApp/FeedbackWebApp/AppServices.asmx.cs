@@ -41,7 +41,7 @@ namespace FeedbackWebApp
             MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
 
             //tell our command to replace the @parameters with real values
-            //we decode them because they came to us via the web so they were encoded
+            //we decode them because they came to us via the web so they were encoded   
             //for transmission (funky characters escaped, mostly)
             sqlCommand.Parameters.AddWithValue("@idValue", HttpUtility.UrlDecode(uid));
             sqlCommand.Parameters.AddWithValue("@passValue", HttpUtility.UrlDecode(pass));
@@ -444,7 +444,7 @@ namespace FeedbackWebApp
                 //the requested account.  Really this is just an example to show you
                 //a query where you get the primary key of the inserted row back from
                 //the database!
-                //StoreKeyWords(response, responseID);
+                StoreKeyWords(response, responseID);
 
             }
             catch (Exception e)
