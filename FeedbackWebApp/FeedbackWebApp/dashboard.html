@@ -64,18 +64,28 @@
         google.charts.setOnLoadCallback(drawStuff);
 
         function drawStuff() {
-            var data = new google.visualization.arrayToDataTable([
-                ["Questions", 'Sentiment', { role: 'style' }],
-                ["Question 1", q1Sentiment, 'green'],
-                ["Question 2", q2Sentiment, 'blue'],
-                ["Question 3", q3Sentiment, 'red'],
+            var data = new google.visualization.arrayToDataTable();
+            //    ["Questions", 'Sentiment', { role: 'style' }],
+            //    ["Question 1", q1Sentiment, 'color: green'],
+            //    ["Question 2", q2Sentiment, 'color: blue'],
+            //    ["Question 3", q3Sentiment, 'color: red'],
+            //]);
+
+            data.addColumn('string', 'Question');
+            data.addColumn('number', 'Sentiment');
+            data.addColumn({ type: 'string', role: 'style' });
+            data.addRows([
+                ["Question 1", q1Sentiment, 'color: green'],
+                ["Question 2", q2Sentiment, 'color: blue'],
+                ["Question 3", q3Sentiment, 'color: red']
             ]);
+
 
             var options = {
                 width: 1100,
                 height: 400,
                 legend: { position: 'none' },
-                color:  [ 'red', 'blue', 'green'],
+                colors:  [ 'red', 'blue', 'green'],
                 axes: {
                     x: {
                         0: { side: 'bottom', label: 'Questions' } // Top x-axis.
