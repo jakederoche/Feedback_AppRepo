@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['treemap'] });
+        
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Responses', 'Parent', 'Avg', 'Sentiment (color)'],
+                ['Word Dictionary', null, 0, 0],
+                ['terrible', 'Word Dictionary', 0, 0],
+                ['great', 'Word Dictionary', 0, 0],
+                ['love', 'Word Dictionary', 0, 0],
+                ['This job is terrible', 'terrible', , -.5],
+                ['My pay here is terrible', 'terrible', .25, -.3],
+                ['This job is great', 'great', .2, .8],
+                ['I love my job', 'love', .4, -.9]
+            ]);
+
+            tree = new google.visualization.TreeMap(document.getElementById('chart_div'));
+
+            tree.draw(data, {
+                minColor: '#f00',
+                midColor: '#ddd',
+                maxColor: '#0d0',
+                headerHeight: 15,
+                fontColor: 'black',
+                showScale: true
+            });
+        }
+        google.charts.setOnLoadCallback(drawChart);
+    </script>
+</head>
+<body>
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+</body>
+</html>
