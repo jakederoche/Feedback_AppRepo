@@ -6,21 +6,99 @@
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
+
+        function GetTreeValues() {
+            var webMethod = "AppServices.asmx/GetTreeValues";
+
+
+            $.ajax({
+                type: "POST",
+                url: webMethod,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    var treeData = msg.d
+
+                    //$("#totalEmployees").html(dashboard.totalEmployees);
+                    //$("#totalResponses").html(dashboard.totalResponses);
+                    //$("#responseRate").html(dashboard.responseRate.toFixed(0) + '%');
+
+                    //q1Sentiment = dashboard.q1Sentiment;
+                    //q2Sentiment = dashboard.q2Sentiment;
+                    //q3Sentiment = dashboard.q3Sentiment;
+                    var arr = [['Responses', 'Parent', 'Size', 'Sentiment'],
+                    ['Word Dictionary', null, 0, 0],];
+
+                    for (var i = 0; i < treeData.length; i++) {
+                        arr.push([
+                            treeData[i].response,
+                            treeData[i].parent,
+                            treeData[i].size,
+                            treeData[i].sentiment
+                        ])
+                    }
+
+                    var data = google.visualization.arrayToDataTable(arr);
+                    //    ['Responses', 'Parent', 'Avg', 'Sentiment (color)'],
+                    //    ['Word Dictionary', null, 0, 0],
+                    //    //treeData
+                    //    ['terrible', 'Word Dictionary', 0, 0],
+                    //    ['great', 'Word Dictionary', 0, 0],
+                    //    ['love', 'Word Dictionary', 0, 0],
+                    //    ['This job is terrible', 'terrible', .20, -.5],
+                    //    ['My pay here is terrible', 'terrible', .25, -.3],
+                    //    ['This job is great', 'great', .2, .8],
+                    //    ['I love my job', 'love', .4, .9]
+                    //]);
+
+                    tree = new google.visualization.TreeMap(document.getElementById('chart_div'));
+
+                    tree.draw(data, {
+                        minColor: '#f00',
+                        midColor: '#ddd',
+                        maxColor: '#0d0',
+                        headerHeight: 15,
+                        fontColor: 'black',
+                        showScale: true
+                    });                
+                //google.charts.setOnLoadCallback(drawChart);
+                    //drawChart();
+                },
+                error: function (e) {
+                    alert("Error with loading user values");
+                }
+            });
+        }
+
         google.charts.load('current', { 'packages': ['treemap'] });
-        
+
         function drawChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['Responses', 'Parent', 'Avg', 'Sentiment (color)'],
-                ['Word Dictionary', null, 0, 0],
-                ['terrible', 'Word Dictionary', 0, 0],
-                ['great', 'Word Dictionary', 0, 0],
-                ['love', 'Word Dictionary', 0, 0],
-                ['This job is terrible', 'terrible', , -.5],
-                ['My pay here is terrible', 'terrible', .25, -.3],
-                ['This job is great', 'great', .2, .8],
-                ['I love my job', 'love', .4, -.9]
-            ]);
+            var arr = [['Responses', 'Parent', 'Size', 'Sentiment'],
+            ['Word Dictionary', null, 0, 0],];
+
+            for (var i = 0; i < treeData.length; i++) {
+                arr.add([
+                    treeData[i].response,
+                    treeData[i].parent,
+                    treeData[i].size,
+                    treeData[i].sentiment
+                ])
+            }
+
+            var data = google.visualization.arrayToDataTable(arr);
+            //    ['Responses', 'Parent', 'Avg', 'Sentiment (color)'],
+            //    ['Word Dictionary', null, 0, 0],
+            //    //treeData
+            //    ['terrible', 'Word Dictionary', 0, 0],
+            //    ['great', 'Word Dictionary', 0, 0],
+            //    ['love', 'Word Dictionary', 0, 0],
+            //    ['This job is terrible', 'terrible', .20, -.5],
+            //    ['My pay here is terrible', 'terrible', .25, -.3],
+            //    ['This job is great', 'great', .2, .8],
+            //    ['I love my job', 'love', .4, .9]
+            //]);
 
             tree = new google.visualization.TreeMap(document.getElementById('chart_div'));
 
@@ -33,10 +111,10 @@
                 showScale: true
             });
         }
-        google.charts.setOnLoadCallback(drawChart);
+        //google.charts.setOnLoadCallback(drawChart);
     </script>
 </head>
-<body>
+<body onload="GetTreeValues()">
     <div id="chart_div" style="width: 900px; height: 500px;"></div>
 </body>
 </html>

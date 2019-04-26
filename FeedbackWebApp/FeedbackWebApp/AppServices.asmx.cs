@@ -188,8 +188,76 @@ namespace FeedbackWebApp
             return dashboard;
         }
 
+        [WebMethod(EnableSession = true)]
+        public TreeMap[] GetTreeValues()
+        {
 
-       
+            Dashboard dashboard = new Dashboard();
+            if (Session["id"] != null)
+            {
+                DataTable sqlDt1 = new DataTable("treemap");
+                DataTable sqlDt2 = new DataTable("treemap");
+
+                //DataRow sqlDr = new DataRow("dashboard");
+
+                string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
+                string sqlSelect1 = "select * from treeWords";
+                string sqlSelect2 = "select * from treeResponses2";
+                
+
+
+                MySqlConnection sqlConnection = new MySqlConnection(sqlConnectString);
+                MySqlCommand sqlCommand1 = new MySqlCommand(sqlSelect1, sqlConnection);
+                MySqlCommand sqlCommand2 = new MySqlCommand(sqlSelect2, sqlConnection);
+                
+
+                // Add the uid value that we get from the login page
+                //sqlCommand.Parameters.AddWithValue("@uid", HttpUtility.UrlDecode(Session["id"].ToString()));
+
+                MySqlDataAdapter sqlDa1 = new MySqlDataAdapter(sqlCommand1);
+                MySqlDataAdapter sqlDa2 = new MySqlDataAdapter(sqlCommand2);
+                
+
+                sqlDa1.Fill(sqlDt1);
+                sqlDa2.Fill(sqlDt2);
+
+
+                sqlConnection.Open();
+                //we're using a try/catch so that if the query errors out we can handle it gracefully
+                //by closing the connection and moving on
+                
+                List<TreeMap> treeMaps = new List<TreeMap>();
+                for (int i = 0; i < sqlDt1.Rows.Count; i++)
+                {
+                    treeMaps.Add(new TreeMap
+                    {
+                        response = sqlDt1.Rows[i]["WordsWord"].ToString(),
+                        parent = sqlDt1.Rows[i]["Word Dictionary"].ToString(),
+                        size = Convert.ToDouble(sqlDt1.Rows[i]["0"]),
+                        sentiment = Convert.ToDouble(sqlDt1.Rows[i]["My_exp_0"])
+                    });
+                }
+                for (int i = 0; i < sqlDt2.Rows.Count; i++)
+                {
+                    treeMaps.Add(new TreeMap
+                    {
+                        response = sqlDt2.Rows[i]["surveyResponse"].ToString(),
+                        parent = sqlDt2.Rows[i]["wordsWord"].ToString(),
+                        size = Convert.ToDouble(sqlDt2.Rows[i]["Size"]),
+                        sentiment = Convert.ToDouble(sqlDt2.Rows[i]["sentiment"])
+                    });
+                }
+
+                return treeMaps.ToArray();
+            }
+                
+            else
+            {
+                return new TreeMap[0];
+            }
+        }
+
+
         ////EXAMPLE OF AN UPDATE QUERY WITH PARAMS PASSED IN
         //[WebMethod(EnableSession = true)]
         //public void UpdateAccount(string UserID, string UserPassword, string UserAdmin, string UserFirstName,  string UserLastName, string UserEmpID, string UserDepartment, string UserDirectReport)
